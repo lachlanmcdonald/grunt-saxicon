@@ -70,8 +70,8 @@ module.exports = function(grunt) {
 			parser.parseString(content, function(error, xml) {
 				xml = traverse(xml);
 				viewBox = xml.svg[parser.options.attrkey].viewBox.split(' ');
-				width = viewBox[2];
-				height = viewBox[3];
+				width = parseInt(viewBox[2], 10);
+				height = parseInt(viewBox[3], 10);
 				parsed = builder.buildObject(xml).replace(/"/g, '\'');
 			});
 
