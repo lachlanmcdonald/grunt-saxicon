@@ -39,6 +39,7 @@ module.exports = function(grunt) {
 
 			if (depth > maxDepth) {
 				grunt.log.warn('Max call depth reached whilst processing SVG.');
+				return false;
 			}
 			return _.mapValues(obj, function(node, key) {
 				if (key === parser.options.attrkey) {
@@ -134,8 +135,10 @@ module.exports = function(grunt) {
 
 		svgFiles = _.mapValues(svgFiles, function(filePath, iconName) {
 			var data = parseSVG(filePath);
-			data.icon = iconName;
-			dataSets.push(data);
+			if (data !== false) {
+				data.icon = iconName;
+				dataSets.push(data);
+			}
 		});
 
 		if (_.isString(options.json)) {
