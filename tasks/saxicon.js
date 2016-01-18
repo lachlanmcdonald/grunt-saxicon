@@ -32,8 +32,32 @@ module.exports = function(grunt) {
 			}
 		});
 
-		traverse = function() {
+		traverse = function(obj, parentKey, depth) {
+			parentKey = parentKey || '';
+			depth = depth || 1;
 
+			if (depth > maxDepth) {
+				grunt.log.warn('Max call depth reached whilst processing SVG.');
+			}
+			return _.mapValues(obj, function(node, key) {
+				if (key === parser.options.attrkey) {
+					if (tags.indexOf(parentKey) > -1) {
+						if (node.fill !== 'none') {
+							node.fill = colorKey;
+						}
+						if (node.hasOwnProperty('stroke') && node.stroke !== 'none') {
+							node.stroke = colorKey;
+						}
+					}
+				} else if (_.isArray(node)) {
+					node = node.map(function(x) {
+						return traverse(x, key, depth + 1);
+					});
+				} else {
+					return traverse(node, key, depth + 1);
+				}
+				return node;
+			});
 		};
 
 		return function(filePath) {
@@ -103,5 +127,16 @@ module.exports = function(grunt) {
 		if (svgFiles.length === 0) {
 			grunt.fail.warn('"source" did not contain any SVG files.');
 		}
+
+		grunt.verbose.writeln('Found ' + _.size(svgFiles) + ' file(s).');
+
+		svgFiles = _.mapValues(svgFiles, function(filePath, iconName) {
+			var data = parseSVG(filePath);
+			data.icon = iconName;
+			data.svg = data.svg.map(function(x) {
+				return '"' + x + '"';
+			}).join(', ');
+			dataSets.push(data);
+		});
 	});
 };
