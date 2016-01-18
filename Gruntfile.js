@@ -29,11 +29,9 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     saxicon: {
       default: {
-        options: {
-        },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
-        }
+      	options: {
+      		source: "test/src"
+      	}
       }
     },
 

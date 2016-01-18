@@ -9,13 +9,13 @@ var path = require('path'),
 module.exports = function(grunt) {
 	'use strict';
 
-	var globSVGFiles = function(path, callback) {
+	var globSVGFiles = function(dirPath, callback) {
 		var temp = {};
 		grunt.file.expand({
-			cwd: path
+			cwd: dirPath
 		}, '*.svg').forEach(function(fileName) {
 			var iconName = callback(fileName);
-			temp[iconName] = path.join(path, fileName);
+			temp[iconName] = path.join(dirPath, fileName);
 		});
 		return temp;
 	};
@@ -48,6 +48,8 @@ module.exports = function(grunt) {
 
 		svgFiles = globSVGFiles(options.source, options.iconName);
 
-		console.log(options);
+		if (svgFiles.length === 0) {
+			grunt.fail.warn('"source" did not contain any SVG files.');
+		}
 	});
 };
