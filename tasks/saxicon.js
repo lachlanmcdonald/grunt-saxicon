@@ -146,6 +146,7 @@ module.exports = function(grunt) {
 		if (_.has(options, 'scss.output')) {
 			grunt.verbose.oklns('Writig SCSS: ' + options.scss.output);
 			var template = handlebars.compile('{{{icon}}}: ({{{width}}}, {{{height}}}, ({{{svg}}}))'),
+				scssUtils = grunt.file.read(path.join(__dirname, 'saxicon.scss')),
 				map = [];
 
 			dataSets.forEach(function(set) {
@@ -155,8 +156,6 @@ module.exports = function(grunt) {
 
 				map.push(template(set));
 			});
-
-			var scssUtils = grunt.file.read(path.join(__dirname, 'saxicon.scss'));
 
 			map = '$saxicon-map: (' + _.values(map).join(',\n') + ');\n';
 			grunt.file.write(options.scss.output, map + '\n' + scssUtils);
