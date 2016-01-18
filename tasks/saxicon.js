@@ -128,7 +128,7 @@ module.exports = function(grunt) {
 			grunt.fail.warn('"source" did not contain any SVG files.');
 		}
 
-		grunt.verbose.writeln('Found ' + _.size(svgFiles) + ' file(s).');
+		grunt.verbose.oklns('Found ' + _.size(svgFiles) + ' file(s).');
 
 		svgFiles = _.mapValues(svgFiles, function(filePath, iconName) {
 			var data = parseSVG(filePath);
