@@ -222,6 +222,10 @@ The function will receive these arguments for each  combination:
 3. The color name. That is, keys in the `colors` object
 4. The color value. That is, values in the `colors` object
 
+## TODO
+
+- Handle `fill` and `stroke` colors that are part applied using the `style` attribute, instead of their own attributes.
+
 ## License
 
 This code is distributed under the BSD-3-Clause licence, as included below:
