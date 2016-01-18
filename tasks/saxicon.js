@@ -80,7 +80,7 @@ module.exports = function(grunt) {
 			return {
 				width: width,
 				height: height,
-				svg: parsed
+				dataURI: parsed
 			};
 		};
 	})();
@@ -133,10 +133,12 @@ module.exports = function(grunt) {
 		svgFiles = _.mapValues(svgFiles, function(filePath, iconName) {
 			var data = parseSVG(filePath);
 			data.icon = iconName;
-			data.svg = data.svg.map(function(x) {
-				return '"' + x + '"';
-			}).join(', ');
 			dataSets.push(data);
 		});
+
+		if (_.isString(options.json)) {
+			grunt.verbose.oklns('Dumping intermediate data as JSON file: ' + options.json);
+			grunt.file.write(options.json, JSON.stringify(dataSets, null, '    '));
+		}
 	});
 };

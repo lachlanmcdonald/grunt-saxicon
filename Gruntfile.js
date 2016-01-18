@@ -30,7 +30,8 @@ module.exports = function(grunt) {
     saxicon: {
       default: {
       	options: {
-      		source: "test/src"
+      		source: "test/src",
+      		json: "tmp/data.json"
       	}
       }
     },
