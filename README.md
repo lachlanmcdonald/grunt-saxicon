@@ -29,6 +29,7 @@ grunt.initConfig({
 	saxicon: {
 	   source: "..." ,
        iconName: ...
+	   json: "..." ,
 	   scss: {
 	       output: "..."
 	   },
@@ -44,8 +45,9 @@ grunt.initConfig({
 | Option | Description |
 | ------ | ----------- |
 | `source` | Path to directory which contains the target SVG files. Preferably, these files should be minified and cleaned-up first using [grunt-svgmin](https://github.com/sindresorhus/grunt-svgmin). |
+| `json` | If provided, exports the intermediate SVG data as a JSON file, which can be used for testing or with other tasks, etc.
 | `scss` | If provided, exports the SVGs for use in your SCSS. |
-| `svgs` | If provided, colorises and exports the SVGs for use in other tasks, etc. |
+| `svgs` | If provided, colorises and exports the SVGs files, which can be used for testing or with other tasks, etc. |
 | `scss.iconName` | Optional callback function used to generate icon names for your SCSS and SVG files. |
 
 **scss**
