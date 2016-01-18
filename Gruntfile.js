@@ -1,9 +1,7 @@
 /*
  * grunt-saxicon
- * 
- *
  * Copyright (c) 2016 Lachlan McDonald
- * Licensed under the BSD, 3-Clause licenses.
+ * Licensed under the BSD 3-Clause license.
  */
 
 'use strict';
