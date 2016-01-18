@@ -1,0 +1,73 @@
+/*
+ * grunt-saxicon
+ * Copyright (c) 2016 Lachlan McDonald
+ * Licensed under the BSD 3-Clause license.
+ */
+
+@mixin saxicon-classes($color, $prefix: ".icon-") {
+	@each $icon, $svg in $saxicon-map {
+		#{$prefix}#{$icon} {
+			$width: saxicon-width($icon);
+			$height: saxicon-height($icon);
+			background-image: saxicon-background($icon, $color);
+			background-size: $width $height;
+			width: $width;
+			height: $height;
+		}
+	}
+}
+
+@function saxicon-width($icon) {
+	$svg: map_get($saxicon-map, $icon);
+
+	@if ($svg == null) {
+		@error "Icon does not exist: #{$icon}";
+	}
+	$size: nth($svg, 1);
+
+	@if $size != null {
+		@return $size * 1px;
+	} @else {
+		@warn "Missing dimensions for icon: #{$icon}";
+		@return auto;
+	}
+}
+
+@function saxicon-height($icon) {
+	$svg: map_get($saxicon-map, $icon);
+
+	@if ($svg == null) {
+		@error "Icon does not exist: #{$icon}";
+	}
+	$size: nth($svg, 2);
+
+	@if $size != null {
+		@return $size * 1px;
+	} @else {
+		@warn "Missing dimensions for icon: #{$icon}";
+		@return auto;
+	}
+}
+
+@function saxicon-background($icon, $color) {
+	$color: "#{$color}";
+	$svg: map_get($saxicon-map, $icon);
+
+	@if ($svg == null) {
+		@error "Icon does not exist: #{$icon}";
+	}
+
+	$parts: nth($svg, 3);
+	$count: length($parts);
+	$str: "";
+
+	@for $i from 1 through $count {
+		$part: nth($parts, $i);
+		@if ($i > 1) {
+			$str: "#{$str}#{$color}#{$part}";
+		} @else {
+			$str: "#{$str}#{$part}";
+		}
+	}
+	@return url($str);
+}
