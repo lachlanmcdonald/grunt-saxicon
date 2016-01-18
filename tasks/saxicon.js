@@ -1,13 +1,65 @@
+/*global escape:true*/
 /*
  * grunt-saxicon
  * Copyright (c) 2016 Lachlan McDonald
  * Licensed under the BSD 3-Clause license.
  */
 var path = require('path'),
+	xml2js = require('xml2js'),
 	_ = require('lodash');
 
 module.exports = function(grunt) {
 	'use strict';
+
+	var parseSVG = (function() {
+		var prefix = 'data:image/svg+xml,',
+			colorKey = '__saxicon__',
+			tags = ['path'],
+			maxDepth = 50,
+			traverse,
+			parser,
+			builder;
+
+		parser = new xml2js.Parser({
+			explicitArray: true
+		});
+
+		builder = new xml2js.Builder({
+			explicitArray: true,
+			headless: true,
+			renderOpts: {
+				pretty: false
+			}
+		});
+
+		traverse = function() {
+
+		};
+
+		return function(filePath) {
+			var content = grunt.file.read(filePath),
+				parsed,
+				viewBox,
+				width,
+				height;
+
+			parser.parseString(content, function(error, xml) {
+				xml = traverse(xml);
+				viewBox = xml.svg[parser.options.attrkey].viewBox.split(' ');
+				width = viewBox[2];
+				height = viewBox[3];
+				parsed = builder.buildObject(xml).replace(/"/g, '\'');
+			});
+
+			parsed = (prefix + parsed.replace(/[^\ \-\.\d\w]/g, escape)).split(colorKey);
+
+			return {
+				width: width,
+				height: height,
+				svg: parsed
+			};
+		};
+	})();
 
 	var globSVGFiles = function(dirPath, callback) {
 		var temp = {};
