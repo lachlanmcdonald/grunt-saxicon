@@ -80,7 +80,7 @@ module.exports = function(grunt) {
 			return {
 				width: width,
 				height: height,
-				dataURI: parsed
+				components: parsed
 			};
 		};
 	})();
