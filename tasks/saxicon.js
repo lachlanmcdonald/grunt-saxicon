@@ -6,6 +6,7 @@
  */
 var path = require('path'),
 	xml2js = require('xml2js'),
+	handlebars = require('handlebars'),
 	_ = require('lodash');
 
 module.exports = function(grunt) {
@@ -98,6 +99,7 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('saxicon', function() {
 		var taskAsync = this.async(),
+			dataSets = [],
 			svgFiles,
 			options;
 
@@ -139,6 +141,23 @@ module.exports = function(grunt) {
 		if (_.isString(options.json)) {
 			grunt.verbose.oklns('Dumping intermediate data as JSON file: ' + options.json);
 			grunt.file.write(options.json, JSON.stringify(dataSets, null, '    '));
+		}
+
+		if (_.has(options, 'scss.output')) {
+			grunt.verbose.oklns('Writig SCSS: ' + options.scss.output);
+			var template = handlebars.compile('{{{icon}}}: ({{{width}}}, {{{height}}}, ({{{svg}}}))'),
+				map = [];
+
+			dataSets.forEach(function(set) {
+				set.svg = set.components.map(function(x) {
+					return '"' + x + '"';
+				}).join(', ');
+
+				map.push(template(set));
+			});
+
+			map = '$saxicon-map: (' + _.values(map).join(', ') + ');\n';
+			grunt.file.write(options.scss.output, map);
 		}
 	});
 };

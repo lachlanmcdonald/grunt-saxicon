@@ -31,7 +31,10 @@ module.exports = function(grunt) {
       default: {
       	options: {
       		source: "test/src",
-      		json: "tmp/data.json"
+      		json: "tmp/data.json",
+      		scss: {
+      			output: "tmp/_saxicon.scss"
+      		}
       	}
       }
     },
