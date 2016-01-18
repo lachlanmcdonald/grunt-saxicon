@@ -156,8 +156,10 @@ module.exports = function(grunt) {
 				map.push(template(set));
 			});
 
-			map = '$saxicon-map: (' + _.values(map).join(', ') + ');\n';
-			grunt.file.write(options.scss.output, map);
+			var scssUtils = grunt.file.read(path.join(__dirname, 'saxicon.scss'));
+
+			map = '$saxicon-map: (' + _.values(map).join(',\n') + ');\n';
+			grunt.file.write(options.scss.output, map + '\n' + scssUtils);
 		}
 	});
 };
