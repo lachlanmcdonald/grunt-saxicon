@@ -13,8 +13,7 @@ module.exports = function(grunt) {
 	'use strict';
 
 	var parseSVG = (function() {
-		var prefix = 'data:image/svg+xml,',
-			colorKey = '__saxicon__',
+		var colorKey = '__saxicon__',
 			tags = ['path'],
 			maxDepth = 50,
 			traverse,
@@ -74,15 +73,13 @@ module.exports = function(grunt) {
 				viewBox = xml.svg[parser.options.attrkey].viewBox.split(' ');
 				width = parseInt(viewBox[2], 10);
 				height = parseInt(viewBox[3], 10);
-				parsed = builder.buildObject(xml).replace(/"/g, '\'');
+				parsed = builder.buildObject(xml);
 			});
-
-			parsed = (prefix + parsed.replace(/[^\ \-\.\d\w]/g, escape)).split(colorKey);
 
 			return {
 				width: width,
 				height: height,
-				components: parsed
+				components: parsed.split(colorKey)
 			};
 		};
 	})();
@@ -151,6 +148,10 @@ module.exports = function(grunt) {
 			if (_.isString(options.svgs.target) === false) {
 				grunt.fail.warn('"target" is a required and must be a string.');
 			}
+
+			dataSets.forEach(function(set) {
+				console.log(set);
+			});
 		}
 
 		if (_.has(options, 'scss.output')) {
@@ -161,7 +162,7 @@ module.exports = function(grunt) {
 
 			dataSets.forEach(function(set) {
 				set.svg = set.components.map(function(x) {
-					return '"' + x + '"';
+					return '"' + x.replace(/[^\ \-\.\d\w]/g, escape).replace(/"/g, '\'') + '"';
 				}).join(', ');
 
 				map.push(template(set));

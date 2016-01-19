@@ -69,5 +69,5 @@
 			$str: "#{$str}#{$part}";
 		}
 	}
-	@return url($str);
+	@return url("data:image/svg+xml,#{$str}");
 }
