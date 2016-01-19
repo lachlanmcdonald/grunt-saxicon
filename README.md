@@ -1,6 +1,6 @@
 # 🎷 grunt-saxicon
 
-> Process a folder of SVGs, producing colorised SVG files and SCSS mixins which can be used to encode the SVGs as data URI's and set fills and strokes in any color.
+> Toolkit for colorising stroke and fills in SVG files. Outputs the colorised SVGs as JSON, individual files or SASS mixins that inline the SVG's in your CSS with Data URI's.
 
 ## Install
 
@@ -44,31 +44,31 @@ grunt.initConfig({
 
 | Option          | Description |
 | --------------- | ----------- |
-| `source`        | Path to directory which contains the target SVG files. Preferably, these files should be minified and cleaned-up first using [grunt-svgmin](https://github.com/sindresorhus/grunt-svgmin). |
-| `json`          | If provided, exports the intermediate SVG data as a JSON file, which can be used for testing or with other tasks, etc.
+| `source`        | Path to directory which contains the target SVG files. Preferably, these files should be minified first using [grunt-svgmin](https://github.com/sindresorhus/grunt-svgmin). |
+| `json`          | If provided, exports the intermediate SVG data in a single JSON file, which can be used for testing or as input for use with other tasks, etc.
 | `scss`          | If provided, exports the SVGs for use in your SCSS. |
-| `svgs`          | If provided, colorises and exports the SVGs files, which can be used for testing or with other tasks, etc. |
-| `scss.iconName` | Optional callback function used to generate icon names for your SCSS and SVG files. |
+| `svgs`          | If provided, colorises and exports the SVGs files, which can be used for testing or as input for use with other tasks, etc. |
+| `iconName` | Optional callback function used to generate icon names for your SCSS and SVG files. |
 
 **scss**
 
 | Option        | Description |
 | ------------- | ----------- |
-| `scss.output` | Path to the SCSS file which will receive both a SCSS map of the SVG files and mixins to simplify their use. |
+| `output` | Path to the SCSS file which will receive both a SCSS map of the SVG files and mixins to simplify their use. |
 
 **svgs**
 
 | Option           | Description |
 | ---------------- | ----------- |
-| `svgs.target `   | Path to the directory which will contain the generated SVGs. If provided, you must also specify the `svgs.colors` property. |
-| `svgs.colors `   | An object of color-name pairs. Each key is the color's name, and its value the color that will be injected into the SVG files. |
-| `svgs.fileName ` | A callback function which produces the output filenames (see sections below). |
+| `target `   | Path to the directory which will contain the generated SVGs. If provided, you must also specify the `svgs.colors` property. |
+| `colors `   | An object of color-name pairs. Each key is the color's name, and its value the color that will be injected into the SVG files. |
+| `fileName ` | A callback function which produces the output filenames (see sections below). |
 
 ## Icon Names
 
 By default, each icon will be named after the original SVG's filename without its extension. i.e. `arrow-left.svg` becomes `arrow-left`.
 
-For that reason, if you are ouputting SVGs to your SCSS, your file-names must be a valid [SASS map key](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps). That is to say, will work when passed to [`map-get()`](http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method).
+For that reason, if you are ouputting SCSS, your file-names must be a valid [SASS map key](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps). That is to say, will work when passed to [`map-get()`](http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method).
 
 You can specify how icon names are produced by overriding the `iconName` property.
 
@@ -85,7 +85,7 @@ You can specify how icon names are produced by overriding the `iconName` propert
 To use your SVG files in your SCSS, you will need to import the file you specified as the `output` property:
 
 ```scss
-@include "path/to/saxicon-output";
+@include "path/to/saxicon";
 ```
 
 ### Functions
@@ -93,9 +93,10 @@ To use your SVG files in your SCSS, you will need to import the file you specifi
 __saxicon-background__(_$icon_, _$color_)
 
 Returns the specified icon with the specified color as a data-URI.
-Will raise an error if the provided icon does not exist.
 
 `$color` should be a valid color name or hex code. Whilst it is possible to use other color attributes it is likely that these will break the data-URI encoding.
+
+Will raise an error if the provided icon does not exist.
 
 ```scss
 .red-arrow {
@@ -108,10 +109,11 @@ Will raise an error if the provided icon does not exist.
 }
 ```
 
-__saxicon-width__(_$icon_)
+__saxicon-width__(_$icon_)  
 __saxicon-height__(_$icon_)
 
-Returns the icon's width\height in pixels, as defined by the original SVG's `viewbox` attribute. Note that this isn't guaranteed to be a whole-number if the SVG is uses fractional sizes.
+Returns the icon's width\height in pixels, as defined by the original SVG's `viewbox` attribute. Note that this isn't guaranteed to be a whole-number if the SVG uses fractional dimensions.
+
 Will raise an error if the provided icon does not exist.
 
 ```scss
@@ -145,11 +147,15 @@ Outputs a class for every icon in the specified color.
 .icon-red-right-arrow {}
 ```
 
+### Support
+
+Data URI-encoded SVG files using the above method is supported in all ever-green browsers (Chrome, Firefox, Safari and Edge) and Internet Explorer 9+.
+
 ### Best practices
 
-It isn't ideal to output the same data-URI multiple times if you are re-using the same icon and color combination across a number of selectors.
+You will find your generated CSS gets quite large if you are re-using the same icon and color combination across a number of selectors.
 
-Instead, you can optimise your selectors by create and extending [placeholder selectors](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#placeholder_selectors_):
+Instead, you can optimise your selectors by create and extending a [placeholder selector](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#placeholder_selectors_):
 
 ```scss
 %icon-arrow-red {
@@ -172,7 +178,7 @@ Instead, you can optimise your selectors by create and extending [placeholder se
 }
 ```
 
-You can also create placeholder selectors with the `saxicon-classes()` mixin:
+You can also create placeholder selectors for all of your icons with the `saxicon-classes()` mixin:
 
 ```scss
 @include saxicon-classes(red, '%icon-');
@@ -224,6 +230,7 @@ The function will receive these arguments for each  combination:
 
 ## TODO
 
+- Tests
 - Handle `fill` and `stroke` colors that are part applied using the `style` attribute, instead of their own attributes.
 
 ## License
