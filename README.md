@@ -28,14 +28,14 @@ require('load-grunt-tasks')(grunt);
 grunt.initConfig({
 	saxicon: {
 		source: "..." ,
-		iconName: ...
+		iconName: ... ,
 		json: "..." ,
 		scss: {
 			output: "..."
 		},
 		svgs: {
 			target: "..." ,
-			colors: [ ... ],
+			colors: [ ... ] ,
 			fileName: ...
 		}
 	}
