@@ -105,7 +105,7 @@ module.exports = function(grunt) {
 			iconName: function(fileName) {
 				return fileName.replace(/^(.*)\.svg$/, '$1');
 			},
-			fileName: function(fileName, iconName, colorName, color) {
+			outputPath: function(filePath, iconName, colorName, color) {
 				return iconName + '.' + colorName + '.svg';
 			}
 		});
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
 		if (_.isFunction(options.iconName) === false) {
 			grunt.fail.warn('"iconName" is not a function.');
 		}
-		if (_.isFunction(options.fileName) === false) {
+		if (_.isFunction(options.outputPath) === false) {
 			grunt.fail.warn('"fileName" is not a function.');
 		}
 		if (_.isString(options.source) === false) {
@@ -151,7 +151,9 @@ module.exports = function(grunt) {
 			}
 
 			dataSets.forEach(function(set) {
-				console.log(set);
+				_.forEach(options.svgs.colors, function(color, name) {
+					console.log(set.icon, set.path, color, name);
+				});
 			});
 		}
 

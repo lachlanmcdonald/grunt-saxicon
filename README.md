@@ -30,7 +30,7 @@ grunt.initConfig({
 		source: "..." ,
 		json: "..." ,
 		iconName: ... ,
-		fileName: ... ,
+		outputPath: ... ,
 		scss: {
 			output: "..."
 		},
@@ -49,7 +49,7 @@ grunt.initConfig({
 | `scss`          | If provided, exports the SVGs for use in your SCSS. |
 | `svgs`          | If provided, colorises and exports the SVGs files, which can be used for testing or as input for use with other tasks, etc. |
 | `iconName`      | Optional callback function used to generate icon names for your SCSS and SVG files. |
-| `fileName `     | Optional callback function used to generate the output filenames for exported SVGs. |
+| `outputPath`    | Optional callback function used to generate the output path for exported SVGs. |
 
 **scss**
 
@@ -66,7 +66,7 @@ grunt.initConfig({
 
 ## Icon Names
 
-By default, each icon will be named after the original SVG's filename without its extension. i.e. `arrow-left.svg` becomes `arrow-left`.
+By default, each icon will be named after the original SVG's file-name without its extension. i.e. `arrow-left.svg` becomes `arrow-left`.
 
 For that reason, if you are ouputting SCSS, your file-names must be a valid [SASS map key](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps). That is to say, will work when passed to [`map-get()`](http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method).
 
@@ -211,11 +211,11 @@ The following will be output:
 - `arrow-right.green.svg`
 - `arrow-right.red.svg`
 
-You can override this by setting the `fileName` property:
+You can override this by setting the `outputPath` property:
 
 ```js
 svgs: {
-	fileName: function(filePath, iconName, colorName, color) {
+	outputPath: function(filePath, iconName, colorName, color) {
 		return iconName + '.' + colorName + '.svg';
 	}
 }
