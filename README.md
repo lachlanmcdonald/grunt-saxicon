@@ -28,15 +28,15 @@ require('load-grunt-tasks')(grunt);
 grunt.initConfig({
 	saxicon: {
 		source: "..." ,
-		iconName: ... ,
 		json: "..." ,
+		iconName: ... ,
+		fileName: ... ,
 		scss: {
 			output: "..."
 		},
 		svgs: {
 			target: "..." ,
-			colors: [ ... ] ,
-			fileName: ...
+			colors: [ ... ]
 		}
 	}
 });
@@ -48,7 +48,8 @@ grunt.initConfig({
 | `json`          | If provided, exports the intermediate SVG data in a single JSON file, which can be used for testing or as input for use with other tasks, etc.
 | `scss`          | If provided, exports the SVGs for use in your SCSS. |
 | `svgs`          | If provided, colorises and exports the SVGs files, which can be used for testing or as input for use with other tasks, etc. |
-| `iconName` | Optional callback function used to generate icon names for your SCSS and SVG files. |
+| `iconName`      | Optional callback function used to generate icon names for your SCSS and SVG files. |
+| `fileName `     | Optional callback function used to generate the output filenames for exported SVGs. |
 
 **scss**
 
@@ -62,7 +63,6 @@ grunt.initConfig({
 | ---------------- | ----------- |
 | `target `   | Path to the directory which will contain the generated SVGs. If provided, you must also specify the `svgs.colors` property. |
 | `colors `   | An object of color-name pairs. Each key is the color's name, and its value the color that will be injected into the SVG files. |
-| `fileName ` | A callback function which produces the output filenames (see sections below). |
 
 ## Icon Names
 

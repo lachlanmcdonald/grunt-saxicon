@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 				options: {
 					source: "test/src",
 					svgs: {
-						output: "tmp/svgs/",
+						target: "tmp/svgs/",
 						colors: {
 							red: "#F00",
 							blue: "#00F",

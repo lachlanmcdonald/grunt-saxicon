@@ -108,15 +108,16 @@ module.exports = function(grunt) {
 			iconName: function(fileName) {
 				return fileName.replace(/^(.*)\.svg$/, '$1');
 			},
-			svgs: {
-				fileName: function(fileName, iconName, colorName, color) {
-        			return iconName + '.' + colorName + '.svg';
-    			}
-    		}
+			fileName: function(fileName, iconName, colorName, color) {
+				return iconName + '.' + colorName + '.svg';
+			}
 		});
 
 		if (_.isFunction(options.iconName) === false) {
 			grunt.fail.warn('"iconName" is not a function.');
+		}
+		if (_.isFunction(options.fileName) === false) {
+			grunt.fail.warn('"fileName" is not a function.');
 		}
 		if (_.isString(options.source) === false) {
 			grunt.fail.warn('"source" is a required and must be a string.');
@@ -143,10 +144,7 @@ module.exports = function(grunt) {
 			grunt.file.write(options.json, JSON.stringify(dataSets, null, '    '));
 		}
 
-		if (_.has(options, 'svg.target')) {
-			if (_.isFunction(options.svgs.fileName) === false) {
-				grunt.fail.warn('"fileName" is not a function.');
-			}
+		if (_.has(options, 'svgs.target')) {
 			if (_.isPlainObject(options.svgs.colors) === false) {
 				grunt.fail.warn('"colors" is a required and must be an object.');
 			}
