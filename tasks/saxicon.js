@@ -131,6 +131,7 @@ module.exports = function(grunt) {
 		svgFiles = _.mapValues(svgFiles, function(filePath, iconName) {
 			var data = parseSVG(filePath);
 			if (data !== false) {
+				data.path = filePath;
 				data.icon = iconName;
 				dataSets.push(data);
 			}

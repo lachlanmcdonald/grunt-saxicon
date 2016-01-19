@@ -215,7 +215,7 @@ You can override this by setting the `fileName` property:
 
 ```js
 svgs: {
-	fileName: function(fileName, iconName, colorName, color) {
+	fileName: function(filePath, iconName, colorName, color) {
 		return iconName + '.' + colorName + '.svg';
 	}
 }
@@ -223,7 +223,7 @@ svgs: {
 
 The function will receive these arguments for each  combination:
 
-1. The original file-name
+1. The file's path, relative Grunt's current working directory (CWD). You can use npm's `path.basename()` on this path if you want just the file-name.
 2. The icon-name, as defined by the `iconName` callback
 3. The color name. That is, keys in the `colors` object
 4. The color value. That is, values in the `colors` object
