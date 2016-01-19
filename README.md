@@ -49,7 +49,7 @@ grunt.initConfig({
 | `scss`          | If provided, exports the SVGs for use in your SCSS. |
 | `svgs`          | If provided, colorises and exports the SVGs files, which can be used for testing or as input for use with other tasks, etc. |
 | `iconName`      | Optional callback function used to generate icon names for your SCSS and SVG files. |
-| `outputPath`    | Optional callback function used to generate the output path for exported SVGs. |
+| `outputPath`    | Optional callback function used to generate the output path for exported SVGs. Paths are relative to the `svgs.target` property. |
 
 **scss**
 

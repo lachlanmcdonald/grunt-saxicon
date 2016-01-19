@@ -152,7 +152,10 @@ module.exports = function(grunt) {
 
 			dataSets.forEach(function(set) {
 				_.forEach(options.svgs.colors, function(color, name) {
-					console.log(set.icon, set.path, color, name);
+					var outputPath = options.outputPath(set.path, set.icon, name, color),
+						content = set.components.join(color);
+					outputPath = path.join(options.svgs.target, outputPath);
+					grunt.file.write(outputPath, content);
 				});
 			});
 		}
