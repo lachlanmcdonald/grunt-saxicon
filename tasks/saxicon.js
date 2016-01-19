@@ -150,6 +150,15 @@ module.exports = function(grunt) {
 				grunt.fail.warn('"target" is a required and must be a string.');
 			}
 
+			_.forEach(options.svgs.colors, function(color, name) {
+				if (/^[a-z\.\_\- 0-9\@]+$/i.test(name) === false) {
+					grunt.fail.warn('Color name contains invalid characters: ' + name);
+				}
+				if (/^#([a-f0-9]{3}){1,2}$/i.test(color) === false) {
+					grunt.fail.warn('Color is not a valid hex color: ' + color);
+				}
+			});
+
 			dataSets.forEach(function(set) {
 				_.forEach(options.svgs.colors, function(color, name) {
 					var outputPath = options.outputPath(set.path, set.icon, name, color),
