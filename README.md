@@ -240,7 +240,7 @@ This code is distributed under the BSD-3-Clause licence, as included below:
 
 > Copyright (C) 2016, [Deloitte Digital](http://deloittedigital.com.au). All rights reserved.
 >
-> DDBreakpoints can be downloaded from: [https://github.com/DeloitteDigital/grunt-saxicon](https://github.com/DeloitteDigital/grunt-saxicon)
+> grunt-saxicon can be downloaded from: [https://github.com/DeloitteDigital/grunt-saxicon](https://github.com/DeloitteDigital/grunt-saxicon)
 >
 > Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 >
