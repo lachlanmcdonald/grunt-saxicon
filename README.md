@@ -92,9 +92,9 @@ To use your SVG files in your SCSS, you will need to import the file you specifi
 
 __saxicon-background__(_$icon_, _$color_)
 
-Returns the specified icon with the specified color as a data-URI.
+Returns the specified icon in the specified color as a data-URI.
 
-`$color` should be a valid color name or hex code. Whilst it is possible to use other color attributes it is likely that these will break the data-URI encoding.
+`$color` should be a valid CSS color. Colors are converted to a six-digit hex string.
 
 Will raise an error if the provided icon does not exist.
 
