@@ -50,7 +50,8 @@
 }
 
 @function saxicon-background($icon, $color) {
-	$color: "#{$color}";
+	$color: str-slice(ie-hex-str($color), 4);
+	$color: "##{$color}";
 	$svg: map_get($saxicon-map, $icon);
 
 	@if ($svg == null) {
