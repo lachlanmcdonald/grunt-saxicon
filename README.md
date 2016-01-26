@@ -101,6 +101,7 @@ Will raise an error if the provided icon does not exist.
 	background-image: saxicon-background(arrow, red);
 }
 ```
+
 ```css
 .red-arrow {
 	background-image: url("data:image/svg+xml, ... ");
@@ -121,6 +122,7 @@ Will raise an error if the provided icon does not exist.
 	height: saxicon-height(arrow);
 }
 ```
+
 ```css
 .arrow {
 	background-size: 9px 12px;
@@ -135,9 +137,13 @@ __saxicon-classes__(_$color_, _$prefix_: ".icon")
 
 Outputs a class for every icon in the specified color.
 
+- The _$prefix_ is prepended to every rule (defaults to `.icon-`).
+- This mixin also outputs a `width`, `height` and `background-size` based on the SVG's original dimensions.
+
 ```scss
 @include saxicon-classes(red, ".icon-red-");
 ```
+
 ```css
 .icon-red-up-arrow {}
 .icon-red-left-arrow {}
@@ -151,7 +157,7 @@ Data URI-encoded SVG files using the above method is supported in all ever-green
 
 ### Best practices
 
-You will find your generated CSS gets quite large if you are re-using the same icon and color combination across a number of selectors.
+You will find your generated CSS gets quite large if you reuse the same icon and color combination across a number of selectors.
 
 Instead, you can optimise your selectors by create and extending a [placeholder selector](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#placeholder_selectors_):
 
@@ -167,6 +173,7 @@ Instead, you can optimise your selectors by create and extending a [placeholder 
 .b {@extend %icon-arrow-red;}
 .c {@extend %icon-arrow-red;}
 ```
+
 ```css
 .a, .b, .c {
 	background-image: url("data:image/svg+xml, ... ");
