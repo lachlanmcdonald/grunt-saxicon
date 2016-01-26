@@ -30,6 +30,32 @@ exports.saxicon = {
 		});
 	},
 
+	// Ruby SASS can compile
+	test_ruby_scss: function(test) {
+		var outputPath = grunt.config('saxicon.test_scss.options.scss.output');
+		test.expect(1);
+
+		exec('grunt saxicon:test_scss', execOptions, function(error, stdout) {
+			exec('sass ' + outputPath, execOptions, function(error, stdout) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
+	},
+
+	// libSass (sassc) can compile
+	test_libsass_scss: function(test) {
+		var outputPath = grunt.config('saxicon.test_scss.options.scss.output');
+		test.expect(1);
+
+		exec('grunt saxicon:test_scss', execOptions, function(error, stdout) {
+			exec('sassc ' + outputPath, execOptions, function(error, stdout) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
+	},
+
 	// Test that there is a file for each icon + color combination, based on the
 	// colors specified in the test_svgs task
 	test_svgs: function(test) {

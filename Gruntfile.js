@@ -47,7 +47,7 @@ module.exports = function(grunt) {
 				options: {
 					source: "test/src",
 					scss: {
-						output: "tmp/_saxicon.scss"
+						output: "tmp/saxicon.scss"
 					}
 				}
 			},
