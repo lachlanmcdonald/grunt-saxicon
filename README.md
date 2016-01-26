@@ -235,7 +235,6 @@ The function will receive these arguments for each  combination:
 
 ## Wishlist
 
-- Tests
 - Generate PNG fallback images (potentially using [svgexport](https://github.com/shakiba/svgexport) and update JSON output to match its own import format).
 - Handle `fill` and `stroke` colors that are part applied using the `style` attribute, instead of their own attributes.
 
