@@ -93,7 +93,8 @@ exports.saxicon = {
 		}.bind(this));
 	},
 
-	// Test that JSON output is parseable and has the expected keys
+	// Test that icon names in the JSON output is properly using the the iconName
+	// callback in the task config
 	test_json2: function(test) {
 		test.expect(1);
 
