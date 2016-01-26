@@ -17,8 +17,6 @@ npm install --save-dev grunt-saxicon
 grunt saxicon
 ```
 
-If you have a `build` task, you should add `saxicon` before you compile your SASS. Likewise, if you use [grunt-contrib-watch](https://github.com/gruntjs/grunt-contrib-watch), you can watch your SVG directory and run the task when files change there too.
-
 ## Configuration
 
 Add the following to your `Gruntfile.js`:
