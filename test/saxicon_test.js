@@ -58,7 +58,17 @@ exports.saxicon = {
 
 	// Test that JSON output is parseable and has the expected keys
 	test_json: function(test) {
-		test.expect(2 + 6 * this.svgs.length);
+		// Each item in the JSON output should contain these keys
+		// and type.
+		var keys = {
+			width: 'number',
+			height: 'number',
+			components: 'object',
+			path: 'string',
+			icon: 'string'
+		};
+
+		test.expect(2 + (_.size(keys) + 1) * this.svgs.length);
 
 		exec('grunt saxicon:test_json', execOptions, function(error, stdout) {
 			var data;
@@ -73,11 +83,9 @@ exports.saxicon = {
 			test.equal(data.length, this.svgs.length);
 
 			data.forEach(function(x) {
-				test.equal(typeof x.width, 'number');
-				test.equal(typeof x.height, 'number');
-				test.equal(typeof x.components, 'object');
-				test.equal(typeof x.path, 'string');
-				test.equal(typeof x.icon, 'string');
+				_.mapValues(keys, function(v, k) {
+					test.equal(typeof x[k], v);
+				});
 				test.ok(x.components.length > 0);
 			}.bind(this));
 
