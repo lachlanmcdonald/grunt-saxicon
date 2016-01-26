@@ -67,7 +67,10 @@ exports.saxicon = {
 			test.doesNotThrow(function() {
 			 	data = grunt.file.readJSON('tmp/data.json');
 			});
-			test.equal(data.length, 8);
+
+			// Test that the JSON contains as many items as there are
+			// there are source icons
+			test.equal(data.length, this.svgs.length);
 
 			data.forEach(function(x) {
 				test.equal(typeof x.width, 'number');
