@@ -91,5 +91,27 @@ exports.saxicon = {
 
 			test.done();
 		}.bind(this));
+	},
+
+	// Test that JSON output is parseable and has the expected keys
+	test_json2: function(test) {
+		test.expect(1);
+
+		exec('grunt saxicon:test_json2', execOptions, function(error, stdout) {
+			var data = grunt.file.readJSON('tmp/data.json'),
+				fn = grunt.config('saxicon.test_json2.options.iconName'),
+				iconNames,
+				svgs;
+
+			svgs = this.svgs.map(function(svg) {
+				return fn(svg.join(''));
+			}).sort();
+			iconNames = data.map(function(x) {
+				return x.icon;
+			}).sort();
+
+			test.deepEqual(svgs, iconNames);
+			test.done();
+		}.bind(this));
 	}
 };

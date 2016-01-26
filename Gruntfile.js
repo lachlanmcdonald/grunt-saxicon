@@ -34,6 +34,15 @@ module.exports = function(grunt) {
 					json: "tmp/data.json",
 				}
 			},
+			test_json2: {
+				options: {
+					source: "test/src",
+					json: "tmp/data.json",
+					iconName: function(fileName) {
+						return fileName.replace(/^(.*)\.svg$/, '$1-test');
+					}
+				}
+			},
 			test_scss: {
 				options: {
 					source: "test/src",
