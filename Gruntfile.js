@@ -28,13 +28,13 @@ module.exports = function(grunt) {
 
 		// Configuration to be run (and then tested).
 		saxicon: {
-			json: {
+			test_json: {
 				options: {
 					source: "test/src",
 					json: "tmp/data.json",
 				}
 			},
-			scss: {
+			test_scss: {
 				options: {
 					source: "test/src",
 					scss: {
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
 					}
 				}
 			},
-			svgs: {
+			test_svgs: {
 				options: {
 					source: "test/src",
 					svgs: {
@@ -73,7 +73,7 @@ module.exports = function(grunt) {
 
 	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
 	// plugin's task(s), then test the result.
-	grunt.registerTask('test', ['clean', 'saxicon', 'nodeunit']);
+	grunt.registerTask('test', ['clean', 'nodeunit']);
 
 	// By default, lint and run all tests.
 	grunt.registerTask('default', ['clean', 'jshint', 'test']);
