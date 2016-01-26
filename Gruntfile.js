@@ -78,6 +78,24 @@ module.exports = function(grunt) {
 						}
 					}
 				}
+			},
+			test_svgs3: {
+				options: {
+					source: "test/src",
+					iconName: function(fileName) {
+						return fileName.replace(/^icon-(.*)\.svg$/, '$1');
+					},
+					outputPath: function(filePath, iconName, colorName, color) {
+						return colorName + '__' + iconName + '.svg';
+					},
+					svgs: {
+						target: "tmp/svgs/",
+						colors: {
+							red: "#F00",
+							blue: "#00F"
+						}
+					}
+				}
 			}
 		},
 

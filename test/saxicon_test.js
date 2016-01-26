@@ -83,6 +83,34 @@ exports.saxicon = {
 		}.bind(this));
 	},
 
+	// Test that there is a file for each icon + color combination, based on the
+	// colors specified in the test_svgs task and taking into account custom
+	// iconName and outputPath callbacks.
+	test_svgs3: function(test) {
+		var colors = _.keys(grunt.config('saxicon.test_svgs3.options.svgs.colors')),
+			fn = grunt.config('saxicon.test_svgs3.options.iconName'),
+			output;
+
+		test.expect(1 + (this.svgs.length * colors.length));
+
+		exec('grunt saxicon:test_svgs3', execOptions, function(error, stdout) {
+			var svgs = grunt.file.expand({
+				cwd: 'tmp/svgs'
+			}, '*.svg');
+
+			test.ok(svgs.length === this.svgs.length * colors.length);
+
+			colors.forEach(function(color) {
+				this.svgs.forEach(function(a) {
+					var fname = color + '__' + fn(a[0] + a[1]) + a[1];
+					test.notEqual(svgs.indexOf(fname), -1);
+				});
+			}.bind(this));
+
+			test.done();
+		}.bind(this));
+	},
+
 	// Test that JSON output is parseable and has the expected keys
 	test_json: function(test) {
 		// Each item in the JSON output should contain these keys
