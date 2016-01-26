@@ -12,6 +12,7 @@ execOptions = {
 
 
 exports.saxicon = {
+	// Get list of test SVGs
 	setUp: function(done) {
 		this.svgs = grunt.file.expand({
 			cwd: 'test/src'
@@ -21,11 +22,16 @@ exports.saxicon = {
 
 		done();
 	},
+
+	// Clean the tmp directory
 	tearDown: function(done) {
 		exec('grunt clean', execOptions, function() {
 			done();
 		});
 	},
+
+	// Test that there is a file for each icon + color combination, based on the
+	// colors specified in the test_svgs task
 	test_svgs: function(test) {
 		var colors = _.keys(grunt.config('saxicon.test_svgs.options.svgs.colors')),
 			output;
@@ -49,12 +55,15 @@ exports.saxicon = {
 			test.done();
 		}.bind(this));
 	},
+
+	// Test that JSON output is parseable and has the expected keys
 	test_json: function(test) {
 		test.expect(2 + 6 * this.svgs.length);
 
 		exec('grunt saxicon:test_json', execOptions, function(error, stdout) {
 			var data;
 
+			// Test that JSON output is parseable
 			test.doesNotThrow(function() {
 			 	data = grunt.file.readJSON('tmp/data.json');
 			});
