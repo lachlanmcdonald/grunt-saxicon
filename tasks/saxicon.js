@@ -122,8 +122,8 @@ module.exports = function(grunt) {
 
 		svgFiles = globSVGFiles(options.source, options.iconName);
 
-		if (svgFiles.length === 0) {
-			grunt.fail.warn('"source" did not contain any SVG files.');
+		if (_.size(svgFiles) === 0) {
+			grunt.fail.warn('"source" directory did not contain any SVG files.');
 		}
 
 		grunt.verbose.oklns('Found ' + _.size(svgFiles) + ' file(s).');
