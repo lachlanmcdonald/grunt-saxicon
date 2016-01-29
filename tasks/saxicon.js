@@ -10,8 +10,9 @@ var path = require('path'),
 	_ = require('lodash');
 
 module.exports = function(grunt) {
-	var parseSVG, globSVGFiles;
 	'use strict';
+
+	var parseSVG, globSVGFiles;
 
 	parseSVG = (function() {
 		var colorKey = '__saxicon__',
