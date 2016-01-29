@@ -10,9 +10,10 @@ var path = require('path'),
 	_ = require('lodash');
 
 module.exports = function(grunt) {
+	var parseSVG, globSVGFiles;
 	'use strict';
 
-	var parseSVG = (function() {
+	parseSVG = (function() {
 		var colorKey = '__saxicon__',
 			tags = ['path'],
 			maxDepth = 50,
@@ -84,7 +85,7 @@ module.exports = function(grunt) {
 		};
 	})();
 
-	var globSVGFiles = function(dirPath, callback) {
+	globSVGFiles = function(dirPath, callback) {
 		var temp = {};
 		grunt.file.expand({
 			cwd: dirPath
