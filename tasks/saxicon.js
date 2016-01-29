@@ -42,25 +42,29 @@ module.exports = function(grunt) {
 				grunt.log.warn('Max call depth reached whilst processing SVG.');
 				return false;
 			}
-			return _.mapValues(obj, function(node, key) {
-				if (key === parser.options.attrkey) {
-					if (tags.indexOf(parentKey) > -1) {
-						if (node.fill !== 'none') {
-							node.fill = colorKey;
+			if (typeof obj === 'object') {
+				return _.mapValues(obj, function(node, key) {
+					if (key === parser.options.attrkey) {
+						if (tags.indexOf(parentKey) > -1) {
+							if (node.fill !== 'none') {
+								node.fill = colorKey;
+							}
+							if (node.hasOwnProperty('stroke') && node.stroke !== 'none') {
+								node.stroke = colorKey;
+							}
 						}
-						if (node.hasOwnProperty('stroke') && node.stroke !== 'none') {
-							node.stroke = colorKey;
-						}
+					} else if (_.isArray(node)) {
+						node = node.map(function(x) {
+							return traverse(x, key, depth + 1);
+						});
+					} else if (_.isPlainObject(node)) {
+						return traverse(node, key, depth + 1);
 					}
-				} else if (_.isArray(node)) {
-					node = node.map(function(x) {
-						return traverse(x, key, depth + 1);
-					});
-				} else {
-					return traverse(node, key, depth + 1);
-				}
-				return node;
-			});
+					return node;
+				});
+			} else {
+				return obj;
+			}
 		};
 
 		return function(filePath) {
