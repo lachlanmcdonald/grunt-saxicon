@@ -97,8 +97,7 @@ module.exports = function(grunt) {
 	};
 
 	grunt.registerMultiTask('saxicon', function() {
-		var taskAsync = this.async(),
-			dataSets = [],
+		var dataSets = [],
 			svgFiles,
 			options;
 
