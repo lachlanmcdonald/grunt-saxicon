@@ -51,7 +51,7 @@
 
 @function saxicon-background($icon, $color) {
 	$color: str-slice(ie-hex-str($color), 4);
-	$color: "##{$color}";
+	$color: "%23#{$color}";
 	$svg: map_get($saxicon-map, $icon);
 
 	@if ($svg == null) {
