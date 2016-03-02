@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 
 	parseSVG = (function() {
 		var colorKey = '__saxicon__',
-			tags = ['path'],
+			tags = ['rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'path'],
 			maxDepth = 50,
 			traverse,
 			parser,
