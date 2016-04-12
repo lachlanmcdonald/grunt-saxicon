@@ -1,7 +1,7 @@
 /*global escape:true*/
 /*
  * grunt-saxicon
- * Copyright (c) 2016 Lachlan McDonald
+ * Copyright (c) 2016 Deloitte Digital
  * Licensed under the BSD 3-Clause license.
  */
 var path = require('path'),
