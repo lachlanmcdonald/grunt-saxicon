@@ -233,10 +233,7 @@ The function will receive these arguments for each  combination:
 3. The color name. That is, keys in the `colors` object
 4. The color value. That is, values in the `colors` object
 
-## Wishlist
 
-- Generate PNG fallback images (potentially using [svgexport](https://github.com/shakiba/svgexport) and update JSON output to match its own import format).
-- Handle `fill` and `stroke` colors that are part applied using the `style` attribute, instead of their own attributes.
 
 ## License
 
