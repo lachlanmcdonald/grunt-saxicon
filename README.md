@@ -2,7 +2,7 @@
 
 > Toolkit for colorising stroke and fills in SVG files. Outputs the colorised SVGs as JSON, individual files or SASS mixins that inline the SVG's in your CSS with Data URI's.
 
-## Install
+## Installation
 
 ```sh
 npm install --save-dev grunt-saxicon
@@ -233,7 +233,18 @@ The function will receive these arguments for each  combination:
 3. The color name. That is, keys in the `colors` object
 4. The color value. That is, values in the `colors` object
 
+## Contributions
 
+- Got an amazing idea to make the plugin better?
+- Found an annoying bug?
+
+Please don't hesitate to raise an issue through GitHub or open a pull request to show off your fancy pants coding skills -- we'll really appreciate it!
+
+## Key Contributors
+
+#### Deloitte Digital
+
+- Lachlan McDonald [@lachlanmcdonald](https://twitter.com/lachlanmcdonald)
 
 ## License
 
