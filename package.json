@@ -1,7 +1,7 @@
 {
   "name": "grunt-saxicon",
   "description": "Process a folder of SVGs, producing colorised SVG files and SCSS mixins which can be used to encode the SVGs as data URI's and set fills and strokes in any color.",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "homepage": "",
   "contributors": [
     {
