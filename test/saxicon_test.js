@@ -36,7 +36,7 @@ exports.saxicon = {
 		test.expect(1);
 
 		exec('grunt saxicon:test_scss', execOptions, function(error, stdout) {
-			exec('sass ' + outputPath, execOptions, function(error, stdout) {
+			exec('sass ' + outputPath + ' --no-cache', execOptions, function(error, stdout) {
 				test.strictEqual(error, null);
 				test.done();
 			});
