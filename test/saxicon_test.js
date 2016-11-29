@@ -155,7 +155,7 @@ exports.saxicon = {
 
 			// Test that JSON output is parseable
 			test.doesNotThrow(function() {
-			 	data = grunt.file.readJSON('tmp/data.json');
+				data = grunt.file.readJSON('tmp/data.json');
 			});
 
 			// Test that the JSON contains as many items as there are
