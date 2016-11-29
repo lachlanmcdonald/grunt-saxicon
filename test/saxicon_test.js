@@ -198,12 +198,12 @@ exports.saxicon = {
 		}.bind(this));
 	},
 
-	// Test that icons with a missing viewbox
+	// Test that icons with width\height attributes, a viewBox, or both will have
+	// the width\height data available in JSON output.
 	test_dimensions: function(test) {
 		exec('grunt saxicon:test_dimensions', execOptions, function(error, stdout) {
 			var data;
 
-			// Test that JSON output is parseable
 			test.doesNotThrow(function() {
 				data = grunt.file.readJSON('tmp/data.json');
 			});
