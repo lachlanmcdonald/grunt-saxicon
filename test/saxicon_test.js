@@ -199,8 +199,8 @@ exports.saxicon = {
 	},
 
 	// Test that icons with a missing viewbox
-	test_viewbox: function(test) {
-		exec('grunt saxicon:test_viewbox', execOptions, function(error, stdout) {
+	test_dimensions: function(test) {
+		exec('grunt saxicon:test_dimensions', execOptions, function(error, stdout) {
 			var data;
 
 			// Test that JSON output is parseable

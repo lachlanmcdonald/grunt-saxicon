@@ -98,9 +98,9 @@ module.exports = function(grunt) {
 				}
 			},
 
-			test_viewbox: {
+			test_dimensions: {
 				options: {
-					source: "test/src/viewbox",
+					source: "test/src/dimensions",
 					json: "tmp/data.json"
 				}
 			}
