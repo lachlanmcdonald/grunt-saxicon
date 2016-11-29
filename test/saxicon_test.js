@@ -52,13 +52,14 @@ exports.saxicon = {
 	// colors specified in the test_svgs task
 	test_svgs: function(test) {
 		var colors = Object.keys(grunt.config('saxicon.test_svgs.options.svgs.colors')),
+			outputPath = grunt.config('saxicon.test_svgs.options.svgs.target'),
 			output;
 
 		test.expect(1 + (this.svgs.length * colors.length));
 
 		exec('grunt saxicon:test_svgs', execOptions, function(error, stdout) {
 			var svgs = grunt.file.expand({
-				cwd: 'tmp/test_svgs/svgs'
+				cwd: outputPath
 			}, '*.svg');
 
 			test.ok(svgs.length === this.svgs.length * colors.length);
@@ -79,13 +80,14 @@ exports.saxicon = {
 	// outputPath callback.
 	test_svgs2: function(test) {
 		var colors = Object.keys(grunt.config('saxicon.test_svgs2.options.svgs.colors')),
+			outputPath = grunt.config('saxicon.test_svgs2.options.svgs.target'),
 			output;
 
 		test.expect(1 + (this.svgs.length * colors.length));
 
 		exec('grunt saxicon:test_svgs2', execOptions, function(error, stdout) {
 			var svgs = grunt.file.expand({
-				cwd: 'tmp/test_svgs2/svgs'
+				cwd: outputPath
 			}, '*.svg');
 
 			test.ok(svgs.length === this.svgs.length * colors.length);
@@ -106,6 +108,7 @@ exports.saxicon = {
 	// iconName and outputPath callbacks.
 	test_svgs3: function(test) {
 		var colors = Object.keys(grunt.config('saxicon.test_svgs3.options.svgs.colors')),
+			outputPath = grunt.config('saxicon.test_svgs3.options.svgs.target'),
 			fn = grunt.config('saxicon.test_svgs3.options.iconName'),
 			output;
 
@@ -131,9 +134,12 @@ exports.saxicon = {
 
 	// Test that JSON output is parseable and has the expected keys
 	test_json: function(test) {
+		var outputPath = grunt.config('saxicon.test_json.options.json'),
+			keys;
+
 		// Each item in the JSON output should contain these keys
 		// and type.
-		var keys = {
+		keys = {
 			width: 'number',
 			height: 'number',
 			components: 'object',
@@ -148,7 +154,7 @@ exports.saxicon = {
 
 			// Test that JSON output is parseable
 			test.doesNotThrow(function() {
-				data = grunt.file.readJSON('tmp/test_json/data.json');
+				data = grunt.file.readJSON(outputPath);
 			});
 
 			// Test that the JSON contains as many items as there are
@@ -171,11 +177,12 @@ exports.saxicon = {
 	// Test that icon names in the JSON output is properly using the the iconName
 	// callback in the task config
 	test_json2: function(test) {
+		var outputPath = grunt.config('saxicon.test_json2.options.json'),
+			fn = grunt.config('saxicon.test_json2.options.iconName');
 		test.expect(1);
 
 		exec('grunt saxicon:test_json2', execOptions, function(error, stdout) {
-			var data = grunt.file.readJSON('tmp/test_json2/data.json'),
-				fn = grunt.config('saxicon.test_json2.options.iconName'),
+			var data = grunt.file.readJSON(outputPath),
 				iconNames,
 				svgs;
 
@@ -194,11 +201,13 @@ exports.saxicon = {
 	// Test that icons with width\height attributes, a viewBox, or both will have
 	// the width\height data available in JSON output.
 	test_dimensions: function(test) {
+		var outputPath = grunt.config('saxicon.test_dimensions.options.json');
+
 		exec('grunt saxicon:test_dimensions', execOptions, function(error, stdout) {
 			var data;
 
 			test.doesNotThrow(function() {
-				data = grunt.file.readJSON('tmp/test_dimensions/data.json');
+				data = grunt.file.readJSON(outputPath);
 			});
 
 			data.forEach(function(x) {
@@ -213,11 +222,13 @@ exports.saxicon = {
 	// Test that icons missing a width\height attributes, or viewBox, will have
 	// width\height properties as null in JSON output.
 	test_no_dimensions: function(test) {
+		var outputPath = grunt.config('saxicon.test_no_dimensions.options.json');
+
 		exec('grunt saxicon:test_no_dimensions', execOptions, function(error, stdout) {
 			var data;
 
 			test.doesNotThrow(function() {
-				data = grunt.file.readJSON('tmp/test_no_dimensions/data.json');
+				data = grunt.file.readJSON(outputPath);
 			});
 
 			data.forEach(function(x) {
