@@ -96,6 +96,13 @@ module.exports = function(grunt) {
 						}
 					}
 				}
+			},
+
+			test_viewbox: {
+				options: {
+					source: "test/src/viewbox",
+					json: "tmp/data.json"
+				}
 			}
 		},
 

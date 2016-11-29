@@ -68,16 +68,35 @@ module.exports = function(grunt) {
 
 		return function(filePath) {
 			var content = grunt.file.read(filePath),
-				parsed,
-				viewBox,
-				width,
-				height;
+				width = null,
+				height = null,
+				parsed;
 
 			parser.parseString(content, function(error, xml) {
+				grunt.log.debug('Parsing: ' + filePath);
 				xml = traverse(xml);
-				viewBox = xml.svg[parser.options.attrkey].viewBox.split(' ');
-				width = parseInt(viewBox[2], 10);
-				height = parseInt(viewBox[3], 10);
+
+				var attributeWidth = parseInt(xml.svg[parser.options.attrkey].width, 10),
+					attributeHeight = parseInt(xml.svg[parser.options.attrkey].height, 10),
+					viewBox = (xml.svg[parser.options.attrkey].viewBox || '').split(/[ ,] */);
+
+				if (isNaN(attributeWidth) || isNaN(attributeHeight)) {
+					if (viewBox.length === 4) {
+						var viewBoxWidth = parseInt(viewBox[2], 10),
+							viewBoxHeight = parseInt(viewBox[3], 10);
+
+						if (isNaN(viewBoxWidth) === false && isNaN(viewBoxHeight) === false) {
+							width = viewBoxWidth;
+							height = viewBoxHeight;
+							grunt.log.debug('Using viewBox dimensions:', width, height);
+						}
+					}
+				} else {
+					width = attributeWidth;
+					height = attributeHeight;
+					grunt.log.debug('Using attribute dimensions:', width, height);
+				}
+
 				parsed = builder.buildObject(xml);
 			});
 

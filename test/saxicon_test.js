@@ -196,5 +196,24 @@ exports.saxicon = {
 			test.deepEqual(svgs, iconNames);
 			test.done();
 		}.bind(this));
+	},
+
+	// Test that icons with a missing viewbox
+	test_viewbox: function(test) {
+		exec('grunt saxicon:test_viewbox', execOptions, function(error, stdout) {
+			var data;
+
+			// Test that JSON output is parseable
+			test.doesNotThrow(function() {
+				data = grunt.file.readJSON('tmp/data.json');
+			});
+
+			data.forEach(function(x) {
+				test.equal(x.width, 40);
+				test.equal(x.height, 40);
+			});
+
+			test.done();
+		}.bind(this));
 	}
 };
