@@ -6,7 +6,6 @@
  */
 var path = require('path'),
 	xml2js = require('xml2js'),
-	handlebars = require('handlebars'),
 	_ = require('lodash');
 
 module.exports = function(grunt) {
@@ -176,8 +175,7 @@ module.exports = function(grunt) {
 
 		if (_.has(options, 'scss.output')) {
 			grunt.verbose.oklns('Writig SCSS: ' + options.scss.output);
-			var template = handlebars.compile('{{{icon}}}: ({{{width}}}, {{{height}}}, ({{{svg}}}))'),
-				scssUtils = grunt.file.read(path.join(__dirname, 'saxicon.scss')),
+			var scssUtils = grunt.file.read(path.join(__dirname, 'saxicon.scss')),
 				map = [];
 
 			dataSets.forEach(function(set) {
@@ -185,7 +183,7 @@ module.exports = function(grunt) {
 					return '"' + x.replace(/[^\ \-\.\d\w]/g, escape).replace(/"/g, '\'') + '"';
 				}).join(', ');
 
-				map.push(template(set));
+				map.push(set.icon + ': (' + set.width + ', ' + set.height + ', (' + set.svg + '))');
 			});
 
 			map = '$saxicon-map: (' + _.values(map).join(',\n') + ');\n';
