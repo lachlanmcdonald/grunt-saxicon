@@ -11,8 +11,8 @@
     }
   ],
   "author": {
-      "name": "Deloitte Digital",
-      "url": "http://deloittedigital.com.au"
+    "name": "Deloitte Digital",
+    "url": "http://deloittedigital.com.au"
   },
   "license": "BSD-3-Clause",
   "engines": {
