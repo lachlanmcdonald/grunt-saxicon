@@ -103,6 +103,16 @@ module.exports = function(grunt) {
 					source: "test/src/dimensions",
 					json: "tmp/data.json"
 				}
+			},
+
+			test_no_dimensions: {
+				options: {
+					source: "test/src/no_dimensions",
+					json: "tmp/data.json",
+					scss: {
+						output: "tmp/saxicon.scss"
+					}
+				}
 			}
 		},
 

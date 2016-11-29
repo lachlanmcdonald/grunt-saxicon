@@ -215,5 +215,24 @@ exports.saxicon = {
 
 			test.done();
 		}.bind(this));
+	},
+
+	// Test that icons missing a width\height attributes, or viewBox, will have
+	// width\height properties as null in JSON output.
+	test_no_dimensions: function(test) {
+		exec('grunt saxicon:test_no_dimensions', execOptions, function(error, stdout) {
+			var data;
+
+			test.doesNotThrow(function() {
+				data = grunt.file.readJSON('tmp/data.json');
+			});
+
+			data.forEach(function(x) {
+				test.equal(x.width, null);
+				test.equal(x.height, null);
+			});
+
+			test.done();
+		}.bind(this));
 	}
 };
