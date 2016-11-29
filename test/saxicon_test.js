@@ -22,19 +22,12 @@ exports.saxicon = {
 		done();
 	},
 
-	// Clean the tmp directory
-	tearDown: function(done) {
-		exec('grunt clean', execOptions, function() {
-			done();
-		});
-	},
-
 	// Ruby SASS can compile
 	test_ruby_scss: function(test) {
-		var outputPath = grunt.config('saxicon.test_scss.options.scss.output');
+		var outputPath = grunt.config('saxicon.test_ruby_scss.options.scss.output');
 		test.expect(1);
 
-		exec('grunt saxicon:test_scss', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_ruby_scss', execOptions, function(error, stdout) {
 			exec('sass ' + outputPath + ' --no-cache', execOptions, function(error, stdout) {
 				test.strictEqual(error, null);
 				test.done();
@@ -44,10 +37,10 @@ exports.saxicon = {
 
 	// libSass (sassc) can compile
 	test_libsass_scss: function(test) {
-		var outputPath = grunt.config('saxicon.test_scss.options.scss.output');
+		var outputPath = grunt.config('saxicon.test_libsass_scss.options.scss.output');
 		test.expect(1);
 
-		exec('grunt saxicon:test_scss', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_libsass_scss', execOptions, function(error, stdout) {
 			exec('sassc ' + outputPath, execOptions, function(error, stdout) {
 				test.strictEqual(error, null);
 				test.done();
@@ -65,7 +58,7 @@ exports.saxicon = {
 
 		exec('grunt saxicon:test_svgs', execOptions, function(error, stdout) {
 			var svgs = grunt.file.expand({
-				cwd: 'tmp/svgs'
+				cwd: 'tmp/test_svgs/svgs'
 			}, '*.svg');
 
 			test.ok(svgs.length === this.svgs.length * colors.length);
@@ -92,7 +85,7 @@ exports.saxicon = {
 
 		exec('grunt saxicon:test_svgs2', execOptions, function(error, stdout) {
 			var svgs = grunt.file.expand({
-				cwd: 'tmp/svgs'
+				cwd: 'tmp/test_svgs2/svgs'
 			}, '*.svg');
 
 			test.ok(svgs.length === this.svgs.length * colors.length);
@@ -120,7 +113,7 @@ exports.saxicon = {
 
 		exec('grunt saxicon:test_svgs3', execOptions, function(error, stdout) {
 			var svgs = grunt.file.expand({
-				cwd: 'tmp/svgs'
+				cwd: 'tmp/test_svgs3/svgs'
 			}, '*.svg');
 
 			test.ok(svgs.length === this.svgs.length * colors.length);
@@ -155,7 +148,7 @@ exports.saxicon = {
 
 			// Test that JSON output is parseable
 			test.doesNotThrow(function() {
-				data = grunt.file.readJSON('tmp/data.json');
+				data = grunt.file.readJSON('tmp/test_json/data.json');
 			});
 
 			// Test that the JSON contains as many items as there are
@@ -181,7 +174,7 @@ exports.saxicon = {
 		test.expect(1);
 
 		exec('grunt saxicon:test_json2', execOptions, function(error, stdout) {
-			var data = grunt.file.readJSON('tmp/data.json'),
+			var data = grunt.file.readJSON('tmp/test_json2/data.json'),
 				fn = grunt.config('saxicon.test_json2.options.iconName'),
 				iconNames,
 				svgs;
@@ -205,7 +198,7 @@ exports.saxicon = {
 			var data;
 
 			test.doesNotThrow(function() {
-				data = grunt.file.readJSON('tmp/data.json');
+				data = grunt.file.readJSON('tmp/test_dimensions/data.json');
 			});
 
 			data.forEach(function(x) {
@@ -224,7 +217,7 @@ exports.saxicon = {
 			var data;
 
 			test.doesNotThrow(function() {
-				data = grunt.file.readJSON('tmp/data.json');
+				data = grunt.file.readJSON('tmp/test_no_dimensions/data.json');
 			});
 
 			data.forEach(function(x) {

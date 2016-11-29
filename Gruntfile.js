@@ -31,23 +31,31 @@ module.exports = function(grunt) {
 			test_json: {
 				options: {
 					source: "test/src",
-					json: "tmp/data.json",
+					json: "tmp/test_json/data.json",
 				}
 			},
 			test_json2: {
 				options: {
 					source: "test/src",
-					json: "tmp/data.json",
+					json: "tmp/test_json2/data.json",
 					iconName: function(fileName) {
 						return fileName.replace(/^(.*)\.svg$/, '$1-test');
 					}
 				}
 			},
-			test_scss: {
+			test_ruby_scss: {
 				options: {
 					source: "test/src",
 					scss: {
-						output: "tmp/saxicon.scss"
+						output: "tmp/test_ruby_scss/saxicon.scss"
+					}
+				}
+			},
+			test_libsass_scss: {
+				options: {
+					source: "test/src",
+					scss: {
+						output: "tmp/test_libsass_scss/saxicon.scss"
 					}
 				}
 			},
@@ -55,7 +63,7 @@ module.exports = function(grunt) {
 				options: {
 					source: "test/src",
 					svgs: {
-						target: "tmp/svgs/",
+						target: "tmp/test_svgs/svgs/",
 						colors: {
 							red: "#F00",
 							blue: "#00F",
@@ -71,7 +79,7 @@ module.exports = function(grunt) {
 						return iconName + '__' + colorName.toUpperCase() + '.svg';
 					},
 					svgs: {
-						target: "tmp/svgs/",
+						target: "tmp/test_svgs2/svgs/",
 						colors: {
 							red: "#F00",
 							blue: "#00F"
@@ -89,7 +97,7 @@ module.exports = function(grunt) {
 						return colorName + '__' + iconName + '.svg';
 					},
 					svgs: {
-						target: "tmp/svgs/",
+						target: "tmp/test_svgs3/svgs/",
 						colors: {
 							red: "#F00",
 							blue: "#00F"
@@ -97,20 +105,18 @@ module.exports = function(grunt) {
 					}
 				}
 			},
-
 			test_dimensions: {
 				options: {
 					source: "test/src/dimensions",
-					json: "tmp/data.json"
+					json: "tmp/test_dimensions/data.json"
 				}
 			},
-
 			test_no_dimensions: {
 				options: {
 					source: "test/src/no_dimensions",
-					json: "tmp/data.json",
+					json: "tmp/test_no_dimensions/data.json",
 					scss: {
-						output: "tmp/saxicon.scss"
+						output: "tmp/test_no_dimensions/saxicon.scss"
 					}
 				}
 			}
@@ -132,7 +138,7 @@ module.exports = function(grunt) {
 
 	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
 	// plugin's task(s), then test the result.
-	grunt.registerTask('test', ['clean', 'nodeunit']);
+	grunt.registerTask('test', ['clean', 'nodeunit', 'clean']);
 
 	// By default, lint and run all tests.
 	grunt.registerTask('default', ['clean', 'jshint', 'test']);
