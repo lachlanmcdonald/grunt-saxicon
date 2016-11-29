@@ -3,7 +3,6 @@
 var grunt = require('grunt'),
 	exec = require('child_process').exec,
 	path = require('path'),
-	_ = require('lodash'),
 	execOptions;
 
 execOptions = {
@@ -59,7 +58,7 @@ exports.saxicon = {
 	// Test that there is a file for each icon + color combination, based on the
 	// colors specified in the test_svgs task
 	test_svgs: function(test) {
-		var colors = _.keys(grunt.config('saxicon.test_svgs.options.svgs.colors')),
+		var colors = Object.keys(grunt.config('saxicon.test_svgs.options.svgs.colors')),
 			output;
 
 		test.expect(1 + (this.svgs.length * colors.length));
@@ -86,7 +85,7 @@ exports.saxicon = {
 	// colors specified in the test_svgs task and taking into account a custom
 	// outputPath callback.
 	test_svgs2: function(test) {
-		var colors = _.keys(grunt.config('saxicon.test_svgs2.options.svgs.colors')),
+		var colors = Object.keys(grunt.config('saxicon.test_svgs2.options.svgs.colors')),
 			output;
 
 		test.expect(1 + (this.svgs.length * colors.length));
@@ -113,7 +112,7 @@ exports.saxicon = {
 	// colors specified in the test_svgs task and taking into account custom
 	// iconName and outputPath callbacks.
 	test_svgs3: function(test) {
-		var colors = _.keys(grunt.config('saxicon.test_svgs3.options.svgs.colors')),
+		var colors = Object.keys(grunt.config('saxicon.test_svgs3.options.svgs.colors')),
 			fn = grunt.config('saxicon.test_svgs3.options.iconName'),
 			output;
 
@@ -149,7 +148,7 @@ exports.saxicon = {
 			icon: 'string'
 		};
 
-		test.expect(2 + (_.size(keys) + 1) * this.svgs.length);
+		test.expect(2 + (Object.keys(keys).length + 1) * this.svgs.length);
 
 		exec('grunt saxicon:test_json', execOptions, function(error, stdout) {
 			var data;
@@ -163,11 +162,13 @@ exports.saxicon = {
 			// there are source icons
 			test.equal(data.length, this.svgs.length);
 
-			data.forEach(function(x) {
-				_.mapValues(keys, function(v, k) {
-					test.equal(typeof x[k], v);
-				});
-				test.ok(x.components.length > 0);
+			data.forEach(function(icon) {
+				for (var k in keys) {
+					if (keys.hasOwnProperty(k)) {
+						test.equal(typeof icon[k], keys[k]);
+					}
+				}
+				test.ok(icon.components.length > 0);
 			}.bind(this));
 
 			test.done();
