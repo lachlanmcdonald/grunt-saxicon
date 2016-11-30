@@ -192,8 +192,8 @@ module.exports = function(grunt) {
 			});
 		}
 
-		if (_.has(options, 'scss.output')) {
-			grunt.verbose.oklns('Writig SCSS: ' + options.scss.output);
+		if (_.has(options, 'scss')) {
+			grunt.verbose.oklns('Writig SCSS: ' + options.scss);
 			var scssUtils = grunt.file.read(path.join(__dirname, 'saxicon.scss')),
 				map = [];
 
@@ -206,7 +206,7 @@ module.exports = function(grunt) {
 			});
 
 			map = '$saxicon-map: (' + _.values(map).join(',\n') + ');\n';
-			grunt.file.write(options.scss.output, map + '\n' + scssUtils);
+			grunt.file.write(options.scss, map + '\n' + scssUtils);
 		}
 	});
 };

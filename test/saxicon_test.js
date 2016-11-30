@@ -24,7 +24,7 @@ exports.saxicon = {
 
 	// Ruby SASS can compile
 	test_ruby_scss: function(test) {
-		var outputPath = grunt.config('saxicon.test_ruby_scss.options.scss.output');
+		var outputPath = grunt.config('saxicon.test_ruby_scss.options.scss');
 		test.expect(1);
 
 		exec('grunt saxicon:test_ruby_scss', execOptions, function(error, stdout) {
@@ -37,7 +37,7 @@ exports.saxicon = {
 
 	// libSass (sassc) can compile
 	test_libsass_scss: function(test) {
-		var outputPath = grunt.config('saxicon.test_libsass_scss.options.scss.output');
+		var outputPath = grunt.config('saxicon.test_libsass_scss.options.scss');
 		test.expect(1);
 
 		exec('grunt saxicon:test_libsass_scss', execOptions, function(error, stdout) {

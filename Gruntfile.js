@@ -46,17 +46,13 @@ module.exports = function(grunt) {
 			test_ruby_scss: {
 				options: {
 					source: "test/src",
-					scss: {
-						output: "tmp/test_ruby_scss/saxicon.scss"
-					}
+					scss: "tmp/test_ruby_scss/saxicon.scss"
 				}
 			},
 			test_libsass_scss: {
 				options: {
 					source: "test/src",
-					scss: {
-						output: "tmp/test_libsass_scss/saxicon.scss"
-					}
+					scss: "tmp/test_libsass_scss/saxicon.scss"
 				}
 			},
 			test_svgs: {
@@ -115,9 +111,7 @@ module.exports = function(grunt) {
 				options: {
 					source: "test/src/no_dimensions",
 					json: "tmp/test_no_dimensions/data.json",
-					scss: {
-						output: "tmp/test_no_dimensions/saxicon.scss"
-					}
+					scss: "tmp/test_no_dimensions/saxicon.scss"
 				}
 			}
 		},
