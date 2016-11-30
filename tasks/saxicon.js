@@ -6,7 +6,6 @@
  */
 var path = require('path'),
 	xml2js = require('xml2js'),
-	handlebars = require('handlebars'),
 	_ = require('lodash');
 
 module.exports = function(grunt) {
@@ -69,16 +68,35 @@ module.exports = function(grunt) {
 
 		return function(filePath) {
 			var content = grunt.file.read(filePath),
-				parsed,
-				viewBox,
-				width,
-				height;
+				width = null,
+				height = null,
+				parsed;
 
 			parser.parseString(content, function(error, xml) {
+				grunt.log.debug('Parsing: ' + filePath);
 				xml = traverse(xml);
-				viewBox = xml.svg[parser.options.attrkey].viewBox.split(' ');
-				width = parseInt(viewBox[2], 10);
-				height = parseInt(viewBox[3], 10);
+
+				var attributeWidth = parseInt(xml.svg[parser.options.attrkey].width, 10),
+					attributeHeight = parseInt(xml.svg[parser.options.attrkey].height, 10),
+					viewBox = (xml.svg[parser.options.attrkey].viewBox || '').split(/[ ,] */);
+
+				if (isNaN(attributeWidth) || isNaN(attributeHeight)) {
+					if (viewBox.length === 4) {
+						var viewBoxWidth = parseInt(viewBox[2], 10),
+							viewBoxHeight = parseInt(viewBox[3], 10);
+
+						if (isNaN(viewBoxWidth) === false && isNaN(viewBoxHeight) === false) {
+							width = viewBoxWidth;
+							height = viewBoxHeight;
+							grunt.log.debug('Using viewBox dimensions:', width, height);
+						}
+					}
+				} else {
+					width = attributeWidth;
+					height = attributeHeight;
+					grunt.log.debug('Using attribute dimensions:', width, height);
+				}
+
 				parsed = builder.buildObject(xml);
 			});
 
@@ -174,10 +192,9 @@ module.exports = function(grunt) {
 			});
 		}
 
-		if (_.has(options, 'scss.output')) {
-			grunt.verbose.oklns('Writig SCSS: ' + options.scss.output);
-			var template = handlebars.compile('{{{icon}}}: ({{{width}}}, {{{height}}}, ({{{svg}}}))'),
-				scssUtils = grunt.file.read(path.join(__dirname, 'saxicon.scss')),
+		if (_.has(options, 'scss')) {
+			grunt.verbose.oklns('Writig SCSS: ' + options.scss);
+			var scssUtils = grunt.file.read(path.join(__dirname, 'saxicon.scss')),
 				map = [];
 
 			dataSets.forEach(function(set) {
@@ -185,11 +202,11 @@ module.exports = function(grunt) {
 					return '"' + x.replace(/[^\ \-\.\d\w]/g, escape).replace(/"/g, '\'') + '"';
 				}).join(', ');
 
-				map.push(template(set));
+				map.push(set.icon + ': (' + set.width + ', ' + set.height + ', (' + set.svg + '))');
 			});
 
 			map = '$saxicon-map: (' + _.values(map).join(',\n') + ');\n';
-			grunt.file.write(options.scss.output, map + '\n' + scssUtils);
+			grunt.file.write(options.scss, map + '\n' + scssUtils);
 		}
 	});
 };
