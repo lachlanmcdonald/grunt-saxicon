@@ -1,23 +1,26 @@
 # 🎷 grunt-saxicon
 
-> Toolkit for colorising stroke and fills in SVG files. Outputs the colorised SVGs as JSON, individual files or SASS mixins that inline the SVG's in your CSS with Data URI's.
+[![npm version](https://badge.fury.io/js/grunt-saxicon.svg)](https://badge.fury.io/js/grunt-saxicon)
 
-## Installation
+> grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs right within SASS, embedded as a data-URI.
 
-```sh
-npm install --save-dev grunt-saxicon
+
+## Getting started
+
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+
+```shell
+npm install grunt-saxicon --save-dev
 ```
 
-## Usage
+Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
-1. Add configuration as shown in the following section
-2. Run task
-
-```sh
-grunt saxicon
+```js
+grunt.loadNpmTasks('grunt-saxicon');
 ```
 
-## Configuration
+
+## Task
 
 Add the following to your `Gruntfile.js`:
 
@@ -25,50 +28,61 @@ Add the following to your `Gruntfile.js`:
 require('load-grunt-tasks')(grunt);
 grunt.initConfig({
 	saxicon: {
-		source: "..." ,
-		json: "..." ,
-		iconName: ... ,
-		outputPath: ... ,
-		scss: {
-			output: "..."
-		},
-		svgs: {
-			target: "..." ,
-			colors: [ ... ]
-		}
+		taskName: {
+			source: "path/to/svgs/",
+			scss: "path/to/saxicon.scss"
+		}	
 	}
 });
 ```
 
-| Option          | Description |
-| --------------- | ----------- |
-| `source`        | Path to directory which contains the target SVG files. Preferably, these files should be minified first using [grunt-svgmin](https://github.com/sindresorhus/grunt-svgmin). |
-| `json`          | If provided, exports the intermediate SVG data in a single JSON file, which can be used for testing or as input for use with other tasks, etc.
-| `scss`          | If provided, exports the SVGs for use in your SCSS. |
-| `svgs`          | If provided, colorises and exports the SVGs files, which can be used for testing or as input for use with other tasks, etc. |
-| `iconName`      | Optional callback function used to generate icon names for your SCSS and SVG files. |
-| `outputPath`    | Optional callback function used to generate the output path for exported SVGs. Paths are relative to the `svgs.target` property. |
+Then in your SCSS files, import the SCSS output:
 
-**scss**
+```scss
+@include "path/to/saxicon";
+```
 
-| Option        | Description |
-| ------------- | ----------- |
-| `output` | Path to the SCSS file which will receive both a SCSS map of the SVG files and mixins to simplify their use. |
+You can then add data-URI encoded colorized SVGs as simple as:
 
-**svgs**
+```scss
+.red-arrow {
+    background-image: saxicon-background(arrow, red);
+}
+```
+```css
+.red-arrow {
+	background-image: url("data:image/svg+xml,...");
+}
+```
 
-| Option           | Description |
-| ---------------- | ----------- |
-| `target `   | Path to the directory which will contain the generated SVGs. If provided, you must also specify the `svgs.colors` property. |
-| `colors `   | An object of color-name pairs. Each key is the color's name, and its value the color that will be injected into the SVG files. |
 
-## Icon Names
+## Options
 
-By default, each icon will be named after the original SVG's file-name without its extension. i.e. `arrow-left.svg` becomes `arrow-left`.
+**source**  
+Type: `String`
 
-For that reason, if you are ouputting SCSS, your file-names must be a valid [SASS map key](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps). That is to say, will work when passed to [`map-get()`](http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method).
+Path to the directory which contains the SVG files.
 
-You can specify how icon names are produced by overriding the `iconName` property.
+- This path is not searched recursively
+- It is highly recommended that you minify these files first using [grunt-svgmin](https://github.com/sindresorhus/grunt-svgmin)
+
+**scss**  
+Type: `String`  
+
+Destination file for SCSS output.
+
+**iconName**  
+Type: `Function`
+
+Optional callback function used to generate icon names for your SCSS and SVG files.
+
+
+## Icon names
+
+Each SVG will be named after the original  filename (without its extension).  
+i.e. `arrow-left.svg` becomes `arrow-left`.
+
+You can override how the names are produced by providing your own function to `iconName`:
 
 ```js
 {
@@ -78,23 +92,33 @@ You can specify how icon names are produced by overriding the `iconName` propert
 }
 ```
 
-## SCSS
+The function must return a valid [SASS map key](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps). (Will work when passed to [`map-get()`](http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method))
 
-To use your SVG files in your SCSS, you will need to import the file you specified as the `output` property:
+
+## SASS
+
+To use your SVG files in your SCSS, you will need to import the path you specified as the `scss` option:
 
 ```scss
 @include "path/to/saxicon";
 ```
 
-### Functions
+Then to add an icon in your SCSS, use:
 
-__saxicon-background__(_$icon_, _$color_)
+```scss
+.red-arrow {
+	background-image: saxicon-background(arrow, red);
+}
+```
 
-Returns the specified icon in the specified color as a data-URI.
+### Helpers
 
-`$color` should be a valid CSS color. Colors are converted to a six-digit hex string.
+__saxicon-background__($icon, $color)
 
-Will raise an error if the provided icon does not exist.
+- **$icon** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings)): Icon name
+- **$color** ([Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors))
+
+Returns the specified icon in the specified color as a data-URI. Colors are converted to a six-digit hex string (alpha is not included). Raises an error if the icon does not exist.
 
 ```scss
 .red-arrow {
@@ -104,16 +128,16 @@ Will raise an error if the provided icon does not exist.
 
 ```css
 .red-arrow {
-	background-image: url("data:image/svg+xml, ... ");
+	background-image: url("data:image/svg+xml,...");
 }
 ```
 
-__saxicon-width__(_$icon_)  
-__saxicon-height__(_$icon_)
+__saxicon-width__ ($icon)  
+__saxicon-height__ ($icon)
 
-Returns the icon's width\height in pixels, as defined by the original SVG's `viewbox` attribute. Note that this isn't guaranteed to be a whole-number if the SVG uses fractional dimensions.
+- **$icon** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings)): Icon name
 
-Will raise an error if the provided icon does not exist.
+Returns the icon's width or height in pixels, as defined by the SVG's `width` and `height` attributes (or the `viewbox` attribute). This isn't guaranteed to be a whole-number if the SVG uses fractional dimensions. Raises an error if the icon does not exist.
 
 ```scss
 .arrow {
@@ -131,13 +155,14 @@ Will raise an error if the provided icon does not exist.
 }
 ```
 
-### Mixins
+__saxicon-classes__($color, $prefix: ".icon")
 
-__saxicon-classes__(_$color_, _$prefix_: ".icon")
+- **$color** ([Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors))
+- **$prefix** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings))
 
 Outputs a class for every icon in the specified color.
 
-- The _$prefix_ is prepended to every rule (defaults to `.icon-`).
+- **$prefix** is prepended to every rule (defaults to `.icon-`).
 - This mixin also outputs a `width`, `height` and `background-size` based on the SVG's original dimensions.
 
 ```scss
@@ -145,10 +170,103 @@ Outputs a class for every icon in the specified color.
 ```
 
 ```css
-.icon-red-up-arrow {}
-.icon-red-left-arrow {}
-.icon-red-down-arrow {}
-.icon-red-right-arrow {}
+.icon-red-up-arrow {...}
+.icon-red-left-arrow {...}
+.icon-red-down-arrow {...}
+.icon-red-right-arrow {...}
+```
+
+
+## Advanced options
+
+> These options are secondary to colorizing and embedded SVGs in your CSS, but are included as they might come in handy for some projects.
+
+**svgs.target**  
+Type: `String`
+
+If provided, colorizes and exports the SVGs. Path output directory for the generated SVGs. If provided, you must also specify the `svgs.target`.
+
+```js
+{
+	svgs: {
+		target: "path/to/output",
+		colors: {
+			red: "#F00",
+			green: "#0F0"
+		}
+	}
+}
+```
+
+**svgs.colors**  
+Type: `String`
+
+An object of color-name pairs. Each key is the color's name, and its value the color that will be injected into the SVG files.
+
+**outputPath**  
+Type: `Function`
+
+Optional callback function used to generate the output path for exported SVGs. Paths are relative to the `svgs.target` property.
+
+**json**  
+Type: `String`
+
+If provided, exports the intermediate SVG data in a single JSON file, which can be used for testing or as input for use with other tasks, etc.
+
+
+### Outputting individual SVG files
+
+Along with SASS, grunt-saxicon can also be used to colorize SVGs and output into a directory of your choosing. Suitable for embedding on a page or use with a CMS.
+
+By default, SVG output will be named after the original file and the color name. For example, if you have `arrow-left.svg` and `arrow-right.svg` with the following properties:
+
+```js
+svgs: {
+	colors: {
+		red: "#F00",
+		green: "#0F0"
+	}
+}
+```
+
+Will generate:
+
+- `arrow-left.green.svg`
+- `arrow-left.red.svg`
+- `arrow-right.green.svg`
+- `arrow-right.red.svg`
+
+You can override the path and filenames with the `outputPath` option:
+
+```js
+svgs: {
+	outputPath: function(filePath, iconName, colorName, color) {
+		return iconName + '.' + colorName + '.svg';
+	}
+}
+```
+
+The function will receive these arguments for every icon-color combination:
+
+- **filePath** (String): Path to the SVG, relative Grunt's current working directory (CWD). You can use npm's `path.basename()` if you want just the file-name.
+- **iconName** (String): Icon name. Can be changed with the `iconName` option.
+- **colorName** (String): Color's name. This is each key in the `colors` object.
+- **color** (String): Color. The is each value in the `colors` object.
+
+
+## Housekeeping
+
+### Running tests
+
+To run the tests, you will need both:
+
+1. [Ruby SASS](http://sass-lang.com/install) — available in your environment as `sass`
+2. A wrapper around [libsass](http://github.com/sass/libsass) (like [SassC](https://github.com/sass/sassc), which can be easily installed on macOS with [Homebrew](http://brewformulas.org/Sassc)) — available in your environment as `sassc`
+
+To run the tests, use:
+
+```sh
+grunt test
 ```
 
 ### Support
@@ -159,7 +277,7 @@ Data URI-encoded SVG files using the above method is supported in all ever-green
 
 You will find your generated CSS gets quite large if you reuse the same icon and color combination across a number of selectors.
 
-Instead, you can optimise your selectors by create and extending a [placeholder selector](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#placeholder_selectors_):
+Instead, extend a [placeholder selector](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#placeholder_selectors_):
 
 ```scss
 %icon-arrow-red {
@@ -183,7 +301,7 @@ Instead, you can optimise your selectors by create and extending a [placeholder 
 }
 ```
 
-You can also create placeholder selectors for all of your icons with the `saxicon-classes()` mixin:
+You can also create placeholder selectors for every icon at once with the `saxicon-classes()` mixin:
 
 ```scss
 @include saxicon-classes(red, '%icon-');
@@ -193,66 +311,27 @@ You can also create placeholder selectors for all of your icons with the `saxico
 .c {@extend %icon-arrow;}
 ```
 
-Keep in that mind that selectors which `@extend` placeholder selectors are included in your CSS output at the location where the placeholder selector was defined.
+Keep in that mind that selectors which `@extend` placeholder selectors are included in your CSS output at the location where the placeholder selector was defined. Be mindful of specificity, if you wish to change these classes later.
 
-Whilst the above method is ideal for keeping SASS files small in size, it can create specificity issues if you try and overrule the instance later. Use the technique best suited to your requirements.
-
-## Outputting SVG files
-
-By default, SVG output will be named after the original file and the color name. For example, if you have `arrow-left.svg` and `arrow-right.svg` with the following properties:
-
-```js
-svgs: {
-	colors: {
-		red: "#F00",
-		green: "#0F0"
-	}
-}
-```
-The following will be output:
-
-- `arrow-left.green.svg`
-- `arrow-left.red.svg`
-- `arrow-right.green.svg`
-- `arrow-right.red.svg`
-
-You can override this by setting the `outputPath` property:
-
-```js
-svgs: {
-	outputPath: function(filePath, iconName, colorName, color) {
-		return iconName + '.' + colorName + '.svg';
-	}
-}
-```
-
-The function will receive these arguments for each  combination:
-
-1. The file's path, relative Grunt's current working directory (CWD). You can use npm's `path.basename()` on this path if you want just the file-name.
-2. The icon-name, as defined by the `iconName` callback
-3. The color name. That is, keys in the `colors` object
-4. The color value. That is, values in the `colors` object
-
-## Change log
+### Change log
 
 For change log, see CHANGES.md.
 
-## Contributions
+### Key contributors
+
+- Lachlan McDonald [@lachlanmcdonald](https://twitter.com/lachlanmcdonald)  
+**Deloitte Digital**
+
+### Contributions
 
 - Got an amazing idea to make the plugin better?
 - Found an annoying bug?
 
-Please don't hesitate to raise an issue through GitHub or open a pull request to show off your fancy pants coding skills -- we'll really appreciate it!
+Please don't hesitate to raise an issue through GitHub or open a pull request to show off your fancy pants coding skills — we'll really appreciate it!
 
-## Key Contributors
+### License
 
-#### Deloitte Digital
-
-- Lachlan McDonald [@lachlanmcdonald](https://twitter.com/lachlanmcdonald)
-
-## License
-
-This code is distributed under the BSD-3-Clause licence, as included below:
+This code is distributed under the BSD-3-Clause license, as included below:
 
 > Copyright (C) 2016, [Deloitte Digital](http://deloittedigital.com.au). All rights reserved.
 >
