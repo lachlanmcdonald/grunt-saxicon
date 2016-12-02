@@ -1,7 +1,7 @@
 {
   "name": "grunt-saxicon",
   "description": "grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs right within SASS, embedded as a data-URI.",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "homepage": "",
   "contributors": [
     {
