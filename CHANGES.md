@@ -1,7 +1,8 @@
 # Change log
 
-### Version 0.2.x — xx/xx/2016
+### Version 0.2.5 — xx/xx/2016
 
+- Integration with Travis CI
 - Fixed documentation
 - Updated license
 
