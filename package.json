@@ -1,19 +1,9 @@
 {
   "name": "grunt-saxicon",
-  "description": "grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs right within SASS, embedded as a data-URI.",
+  "description": "grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs within SASS embedded as a data-URI.",
   "version": "0.2.4",
-  "homepage": "",
-  "contributors": [
-    {
-      "name": "Lachlan McDonald",
-      "url": "http://lachlanmcdonald.com",
-      "email": "lacmcdonald@deloitte.com.au"
-    }
-  ],
-  "author": {
-    "name": "Deloitte Digital",
-    "url": "http://deloittedigital.com.au"
-  },
+  "homepage": "https://github.com/lachlanmcdonald/grunt-saxicon/",
+  "author": "Lachlan McDonald <lachlan@radelaide.net>",
   "license": "BSD-3-Clause",
   "engines": {
     "node": ">= 0.8.0"
