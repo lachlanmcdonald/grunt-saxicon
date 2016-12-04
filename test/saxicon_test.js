@@ -3,22 +3,23 @@
 var grunt = require('grunt'),
 	exec = require('child_process').exec,
 	path = require('path'),
-	execOptions;
+	execOptions,
+	srcSVGs;
 
 execOptions = {
 	cwd: path.join(__dirname, '..')
 };
 
+srcSVGs = grunt.file.expand({
+	cwd: 'test/src'
+}, '*.svg').map(function(x) {
+	return [path.basename(x, '.svg'), '.svg'];
+});
 
 exports.saxicon = {
 	// Get list of test SVGs
 	setUp: function(done) {
-		this.svgs = grunt.file.expand({
-			cwd: 'test/src'
-		}, '*.svg').map(function(x) {
-			return [path.basename(x, '.svg'), '.svg'];
-		});
-
+		this.svgs = srcSVGs;
 		done();
 	},
 
