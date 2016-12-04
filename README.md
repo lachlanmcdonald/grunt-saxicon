@@ -1,9 +1,9 @@
 # 🎷 grunt-saxicon
 
 [![npm version](https://badge.fury.io/js/grunt-saxicon.svg)](https://badge.fury.io/js/grunt-saxicon)
+![Build status](https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master)
 
 > grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs within SASS embedded as a data-URI.
-
 
 ## Getting started
 
