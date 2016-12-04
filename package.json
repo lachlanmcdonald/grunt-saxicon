@@ -4,7 +4,11 @@
   "version": "0.2.4",
   "homepage": "https://github.com/lachlanmcdonald/grunt-saxicon/",
   "author": "Lachlan McDonald <lachlan@radelaide.net>",
+  "contributors": [
+    "Lachlan McDonald <lachlan@radelaide.net>"
+  ],
   "license": "BSD-3-Clause",
+  "bugs": "https://github.com/lachlanmcdonald/grunt-saxicon/issues",
   "engines": {
     "node": ">= 0.8.0"
   },
