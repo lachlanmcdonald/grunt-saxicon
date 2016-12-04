@@ -1,5 +1,10 @@
 # Change log
 
+### Version 0.2.x — xx/xx/2016
+
+- Fixed documentation
+- Updated license
+
 ### Version 0.2.4 — 01/12/2016
 
 - Updated dependant version of `grunt`, `grunt-contrib-clean`, `grunt-contrib-jshint`, `grunt-contrib-nodeunit`. Namely, `grunt-contrib-jshint@0.9.2` still had the DoS vulnerability.

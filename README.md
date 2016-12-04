@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/grunt-saxicon.svg)](https://badge.fury.io/js/grunt-saxicon)
 
-> grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs right within SASS, embedded as a data-URI.
+> grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs within SASS embedded as a data-URI.
 
 
 ## Getting started
@@ -64,7 +64,7 @@ Type: `String`
 Path to the directory which contains the SVG files.
 
 - This path is not searched recursively
-- It is highly recommended that you minify these files first using [grunt-svgmin](https://github.com/sindresorhus/grunt-svgmin)
+- It is highly recommended that you minify these files first using [grunt-svgmin]
 
 **scss**  
 Type: `String`  
@@ -95,23 +95,13 @@ You can override how the names are produced by providing your own function to `i
 The function must return a valid [SASS map key](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps). (Will work when passed to [`map-get()`](http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method))
 
 
+## Attributes vs. CSS
+
+grunt-saxicon only works with the `fill` and `stroke` attributes. If you use `style` attributes, you can convert these to attributes using [svgo] or [grunt-svgmin].
+
+Styles applied via the `<style>` tag are ignored.
+
 ## SASS
-
-To use your SVG files in your SCSS, you will need to import the path you specified as the `scss` option:
-
-```scss
-@include "path/to/saxicon";
-```
-
-Then to add an icon in your SCSS, use:
-
-```scss
-.red-arrow {
-	background-image: saxicon-background(arrow, red);
-}
-```
-
-### Helpers
 
 __saxicon-background__($icon, $color)
 
@@ -137,7 +127,7 @@ __saxicon-height__ ($icon)
 
 - **$icon** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings)): Icon name
 
-Returns the icon's width or height in pixels, as defined by the SVG's `width` and `height` attributes (or the `viewbox` attribute). This isn't guaranteed to be a whole-number if the SVG uses fractional dimensions. Raises an error if the icon does not exist.
+Returns the icon's width or height in pixels, as defined by the SVG's `width` and `height` attributes (or the `viewBox` attribute). This isn't guaranteed to be a whole-number if the SVG uses fractional dimensions. Raises an error if the icon does not exist.
 
 ```scss
 .arrow {
@@ -184,7 +174,7 @@ Outputs a class for every icon in the specified color.
 **svgs.target**  
 Type: `String`
 
-If provided, colorizes and exports the SVGs. Path output directory for the generated SVGs. If provided, you must also specify the `svgs.target`.
+If provided, colorizes and exports the SVGs into the directory provided. If provided, you must also specify the `svgs.colors`. See also: `outputPath`.
 
 ```js
 {
@@ -201,12 +191,20 @@ If provided, colorizes and exports the SVGs. Path output directory for the gener
 **svgs.colors**  
 Type: `String`
 
-An object of color-name pairs. Each key is the color's name, and its value the color that will be injected into the SVG files.
+An object of color-name pairs. Each key is the color's name, and its value the color that will be injected into the SVG files. See example above.
 
 **outputPath**  
 Type: `Function`
 
-Optional callback function used to generate the output path for exported SVGs. Paths are relative to the `svgs.target` property.
+	Optional callback function used to generate the output path for exported SVGs. Paths are relative to the `svgs.target` property.
+
+```js
+{
+	outputPath: function(filePath, iconName, colorName, color) {
+		return iconName + '__' + colorName.toUpperCase() + '.svg';
+	}
+}
+```
 
 **json**  
 Type: `String`
@@ -275,7 +273,7 @@ Data URI-encoded SVG files using the above method is supported in all ever-green
 
 ### Best practices
 
-You will find your generated CSS gets quite large if you reuse the same icon and color combination across a number of selectors.
+You may find your generated CSS gets large if you reuse the same icon and color combination across a number of selectors.
 
 Instead, extend a [placeholder selector](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#placeholder_selectors_):
 
@@ -313,29 +311,14 @@ You can also create placeholder selectors for every icon at once with the `saxic
 
 Keep in that mind that selectors which `@extend` placeholder selectors are included in your CSS output at the location where the placeholder selector was defined. Be mindful of specificity, if you wish to change these classes later.
 
-### Change log
-
-For change log, see CHANGES.md.
-
-### Key contributors
-
-- Lachlan McDonald [@lachlanmcdonald](https://twitter.com/lachlanmcdonald)  
-**Deloitte Digital**
-
-### Contributions
-
-- Got an amazing idea to make the plugin better?
-- Found an annoying bug?
-
-Please don't hesitate to raise an issue through GitHub or open a pull request to show off your fancy pants coding skills — we'll really appreciate it!
 
 ### License
 
 This code is distributed under the BSD-3-Clause license, as included below:
 
-> Copyright (C) 2016, [Deloitte Digital](http://deloittedigital.com.au). All rights reserved.
+> Copyright (C) 2016, Lachlan McDonald. All rights reserved.
 >
-> grunt-saxicon can be downloaded from: [https://github.com/DeloitteDigital/grunt-saxicon](https://github.com/DeloitteDigital/grunt-saxicon)
+> grunt-saxicon can be downloaded from: https://github.com/lachlanmcdonald/grunt-saxicon
 >
 > Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 >
@@ -345,3 +328,6 @@ This code is distributed under the BSD-3-Clause license, as included below:
 > - Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 >
 > THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+[svgo]: https://github.com/svg/svgo/
+[grunt-svgmin]: https://github.com/sindresorhus/grunt-svgmin/
