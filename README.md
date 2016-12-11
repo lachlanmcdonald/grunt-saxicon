@@ -1,7 +1,7 @@
 # 🎷 grunt-saxicon
 
-[![npm version](https://badge.fury.io/js/grunt-saxicon.svg)](https://badge.fury.io/js/grunt-saxicon)
-![Build status](https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master)
+[![npm version][npm-img]](https://badge.fury.io/js/grunt-saxicon)
+![Build status][build-img]
 
 > grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs within SASS embedded as a data-URI.
 
@@ -105,8 +105,8 @@ Styles applied via the `<style>` tag are ignored.
 
 __saxicon-background__($icon, $color)
 
-- **$icon** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings)): Icon name
-- **$color** ([Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors))
+- **$icon** ([String][sass-string]): Icon name
+- **$color** ([Color][sass-string])
 
 Returns the specified icon in the specified color as a data-URI. Colors are converted to a six-digit hex string (alpha is not included). Raises an error if the icon does not exist.
 
@@ -125,7 +125,7 @@ Returns the specified icon in the specified color as a data-URI. Colors are conv
 __saxicon-width__ ($icon)  
 __saxicon-height__ ($icon)
 
-- **$icon** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings)): Icon name
+- **$icon** ([String][sass-string]): Icon name
 
 Returns the icon's width or height in pixels, as defined by the SVG's `width` and `height` attributes (or the `viewBox` attribute). This isn't guaranteed to be a whole-number if the SVG uses fractional dimensions. Raises an error if the icon does not exist.
 
@@ -145,15 +145,12 @@ Returns the icon's width or height in pixels, as defined by the SVG's `width` an
 }
 ```
 
-__saxicon-classes__($color, $prefix: ".icon")
+__saxicon-classes__($color, $prefix)
 
-- **$color** ([Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors))
-- **$prefix** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings))
+- **$color** ([Color]([sass-color]))
+- **$prefix** ([String][sass-string]): Prepended to every rule. Defaults to `.icon-`.
 
-Outputs a class for every icon in the specified color.
-
-- **$prefix** is prepended to every rule (defaults to `.icon-`).
-- This mixin also outputs a `width`, `height` and `background-size` based on the SVG's original dimensions.
+Outputs a class for every icon in the specified color. This mixin also outputs a `width`, `height` and `background-size` based on the SVG's original dimensions.
 
 ```scss
 @include saxicon-classes(red, ".icon-red-");
@@ -331,3 +328,7 @@ This code is distributed under the BSD-3-Clause license, as included below:
 
 [svgo]: https://github.com/svg/svgo/
 [grunt-svgmin]: https://github.com/sindresorhus/grunt-svgmin/
+[npm-img]: https://badge.fury.io/js/grunt-saxicon.svg
+[build-img]: https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master
+[sass-color]: http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors
+[sass-string]: http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings
