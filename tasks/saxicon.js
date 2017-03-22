@@ -76,14 +76,14 @@ module.exports = function(grunt) {
 				grunt.log.debug('Parsing: ' + filePath);
 				xml = traverse(xml);
 
-				var attributeWidth = parseInt(xml.svg[parser.options.attrkey].width, 10),
-					attributeHeight = parseInt(xml.svg[parser.options.attrkey].height, 10),
+				var attributeWidth = parseFloat(xml.svg[parser.options.attrkey].width),
+					attributeHeight = parseFloat(xml.svg[parser.options.attrkey].height),
 					viewBox = (xml.svg[parser.options.attrkey].viewBox || '').split(/[ ,] */);
 
 				if (isNaN(attributeWidth) || isNaN(attributeHeight)) {
 					if (viewBox.length === 4) {
-						var viewBoxWidth = parseInt(viewBox[2], 10),
-							viewBoxHeight = parseInt(viewBox[3], 10);
+						var viewBoxWidth = parseFloat(viewBox[2]),
+							viewBoxHeight = parseFloat(viewBox[3]);
 
 						if (isNaN(viewBoxWidth) === false && isNaN(viewBoxHeight) === false) {
 							width = viewBoxWidth;
