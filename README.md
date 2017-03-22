@@ -313,7 +313,7 @@ Keep in that mind that selectors which `@extend` placeholder selectors are inclu
 
 This code is distributed under the BSD-3-Clause license, as included below:
 
-> Copyright (C) 2016, Lachlan McDonald. All rights reserved.
+> Copyright (C) 2017, Lachlan McDonald. All rights reserved.
 >
 > grunt-saxicon can be downloaded from: https://github.com/lachlanmcdonald/grunt-saxicon
 >
