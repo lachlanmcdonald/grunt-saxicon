@@ -43,16 +43,16 @@ module.exports = function(grunt) {
 					}
 				}
 			},
-			test_ruby_scss: {
+			test_scss_ruby: {
 				options: {
 					source: "test/src",
-					scss: "tmp/test_ruby_scss/saxicon.scss"
+					scss: "tmp/test_scss_ruby/saxicon.scss"
 				}
 			},
-			test_libsass_scss: {
+			test_scss_libsass: {
 				options: {
 					source: "test/src",
-					scss: "tmp/test_libsass_scss/saxicon.scss"
+					scss: "tmp/test_scss_libsass/saxicon.scss"
 				}
 			},
 			test_svgs: {

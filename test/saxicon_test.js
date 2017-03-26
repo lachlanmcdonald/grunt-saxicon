@@ -23,11 +23,11 @@ exports.saxicon = {
 	},
 
 	// Ruby SASS can compile
-	test_ruby_scss: function(test) {
-		var outputPath = grunt.config('saxicon.test_ruby_scss.options.scss');
+	test_scss_ruby: function(test) {
+		var outputPath = grunt.config('saxicon.test_scss_ruby.options.scss');
 		test.expect(1);
 
-		exec('grunt saxicon:test_ruby_scss', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_scss_ruby', execOptions, function(error, stdout) {
 			exec('sass ' + outputPath + ' --no-cache', execOptions, function(error, stdout) {
 				test.strictEqual(error, null);
 				test.done();
@@ -36,11 +36,11 @@ exports.saxicon = {
 	},
 
 	// libSass (sassc) can compile
-	test_libsass_scss: function(test) {
-		var outputPath = grunt.config('saxicon.test_libsass_scss.options.scss');
+	test_scss_libsass: function(test) {
+		var outputPath = grunt.config('saxicon.test_scss_libsass.options.scss');
 		test.expect(1);
 
-		exec('grunt saxicon:test_libsass_scss', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_scss_libsass', execOptions, function(error, stdout) {
 			exec('sassc ' + outputPath, execOptions, function(error, stdout) {
 				test.strictEqual(error, null);
 				test.done();
