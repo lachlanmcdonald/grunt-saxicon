@@ -2,13 +2,13 @@
 
 var grunt = require('grunt'),
 	exec = require('child_process').exec,
-	path = require('path'),
-	execOptions;
+	path = require('path');
+
+var execOptions;
 
 execOptions = {
 	cwd: path.join(__dirname, '..')
 };
-
 
 exports.saxicon = {
 	// Get list of test SVGs
@@ -22,26 +22,32 @@ exports.saxicon = {
 		done();
 	},
 
-	// Ruby SASS can compile
+	// Ruby SASS can compile when functions are used
 	test_scss_ruby: function(test) {
 		var outputPath = grunt.config('saxicon.test_scss_ruby.options.scss');
 		test.expect(1);
 
 		exec('grunt saxicon:test_scss_ruby', execOptions, function(error, stdout) {
-			exec('sass ' + outputPath + ' --no-cache', execOptions, function(error, stdout) {
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+			grunt.file.write(dest, '@import "saxicon";\n@include sax-classes(blue);');
+
+			exec('sass ' + dest + ' --no-cache', execOptions, function(error, stdout) {
 				test.strictEqual(error, null);
 				test.done();
 			});
 		});
 	},
 
-	// libSass (sassc) can compile
+	// libSass (sassc) can compile when functions are used
 	test_scss_libsass: function(test) {
 		var outputPath = grunt.config('saxicon.test_scss_libsass.options.scss');
 		test.expect(1);
 
 		exec('grunt saxicon:test_scss_libsass', execOptions, function(error, stdout) {
-			exec('sassc ' + outputPath, execOptions, function(error, stdout) {
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+			grunt.file.write(dest, '@import "saxicon";\n@include sax-classes(blue);');
+
+			exec('sassc ' + dest, execOptions, function(error, stdout) {
 				test.strictEqual(error, null);
 				test.done();
 			});

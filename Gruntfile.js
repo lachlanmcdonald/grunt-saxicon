@@ -46,13 +46,13 @@ module.exports = function(grunt) {
 			test_scss_ruby: {
 				options: {
 					source: "test/src",
-					scss: "tmp/test_scss_ruby/saxicon.scss"
+					scss: "tmp/test_scss_ruby/_saxicon.scss"
 				}
 			},
 			test_scss_libsass: {
 				options: {
 					source: "test/src",
-					scss: "tmp/test_scss_libsass/saxicon.scss"
+					scss: "tmp/test_scss_libsass/_saxicon.scss"
 				}
 			},
 			test_svgs: {
@@ -132,7 +132,7 @@ module.exports = function(grunt) {
 
 	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
 	// plugin's task(s), then test the result.
-	grunt.registerTask('test', ['clean', 'nodeunit', 'clean']);
+	grunt.registerTask('test', ['clean', 'nodeunit']);
 
 	// By default, lint and run all tests.
 	grunt.registerTask('default', ['clean', 'jshint', 'test']);
