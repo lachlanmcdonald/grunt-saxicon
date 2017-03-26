@@ -115,6 +115,19 @@ module.exports = function(grunt) {
 					json: "tmp/test_no_dimensions/data.json",
 					scss: "tmp/test_no_dimensions/saxicon.scss"
 				}
+			},
+			test_auto_color_naming: {
+				options: {
+					source: "test/src/multi",
+					json: "tmp/test_auto_color_naming/test.json"
+				}
+			},
+			test_gray: {
+				options: {
+					preferGray: true,
+					source: "test/src/gray",
+					json: "tmp/test_gray/test.json"
+				}
 			}
 		},
 

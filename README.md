@@ -118,7 +118,7 @@ By default, hex colors are replaced with their [SVG color keyword][colors] (i.e.
 **preferGray**  
 Type: `Boolean`
 
-Optional. If `true`, automatic conversion of SVG color names will prefer "gray" over "grey." 
+Optional. If `true`, automatic conversion of SVG color names will prefer "gray" over "grey." This option will not change colors that were already defined with a [SVG color keyword][colors].
 
 ## Icon names
 

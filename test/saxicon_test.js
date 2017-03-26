@@ -244,5 +244,58 @@ exports.saxicon = {
 
 			test.done();
 		}.bind(this));
+	},
+
+	// Test that auto-naming is converting hex colors into the SVG color keywords
+	test_auto_color_naming: function(test) {
+		var outputPath = grunt.config('saxicon.test_auto_color_naming.options.json');
+
+		exec('grunt saxicon:test_auto_color_naming', execOptions, function(error, stdout) {
+			var data;
+
+			test.doesNotThrow(function() {
+				data = grunt.file.readJSON(outputPath);
+			});
+
+			test.equal(data[0].components[1], "red");
+			test.equal(data[0].components[3], "lime");
+
+			test.equal(data[1].components[1], "lime");
+			test.equal(data[1].components[3], "red");
+			test.equal(data[1].components[5], "blue");
+
+			test.equal(data[2].components[1], "lime");
+			test.equal(data[2].components[3], "red");
+			test.equal(data[2].components[5], "blue");
+
+			test.equal(data[3].components[1], "lime");
+			test.equal(data[3].components[3], "red");
+			test.equal(data[3].components[5], "black");
+
+			test.done();
+		}.bind(this));
+	},
+
+	// Test gray
+	test_gray: function(test) {
+		var outputPath = grunt.config('saxicon.test_gray.options.json');
+
+		exec('grunt saxicon:test_gray', execOptions, function(error, stdout) {
+			var data;
+
+			test.doesNotThrow(function() {
+				data = grunt.file.readJSON(outputPath);
+			});
+
+			// These two are converted automatically
+			test.equal(data[0].components[1], "darkgray");
+			test.equal(data[0].components[5], "lightgray");
+
+			// This color was defined as a keyword and shouldn't
+			// be changed
+			test.equal(data[0].components[3], "grey");
+
+			test.done();
+		}.bind(this));
 	}
 };
