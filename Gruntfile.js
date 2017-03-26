@@ -122,6 +122,12 @@ module.exports = function(grunt) {
 					json: "tmp/test_auto_color_naming/test.json"
 				}
 			},
+			test_multi: {
+				options: {
+					source: "test/src/multi",
+					scss: "tmp/test_multi/_saxicon.scss"
+				}
+			},
 			test_gray: {
 				options: {
 					preferGray: true,

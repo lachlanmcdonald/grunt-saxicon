@@ -276,6 +276,21 @@ exports.saxicon = {
 		}.bind(this));
 	},
 
+	test_multi: function(test) {
+		var outputPath = grunt.config('saxicon.test_multi.options.scss');
+		test.expect(1);
+
+		exec('grunt saxicon:test_multi', execOptions, function(error, stdout) {
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+			grunt.file.write(dest, '@import "saxicon";\n.test {background-image: sax(icon-03, $lime: #8403ff, $red: #8403ff, $black: #8403ff);}');
+
+			exec('sassc ' + dest, execOptions, function(error, stdout) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
+	},
+
 	// Test gray
 	test_gray: function(test) {
 		var outputPath = grunt.config('saxicon.test_gray.options.json');
