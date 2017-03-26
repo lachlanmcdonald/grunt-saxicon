@@ -9,7 +9,7 @@
 		#{$prefix}#{$icon} {
 			$width: sax-width($icon);
 			$height: sax-height($icon);
-			background-image: sax-background($icon, $color);
+			background-image: sax($icon, $color);
 			background-size: $width $height;
 			width: $width;
 			height: $height;
