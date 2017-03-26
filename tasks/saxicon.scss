@@ -4,12 +4,12 @@
  * Licensed under the BSD 3-Clause license.
  */
 
-@mixin saxicon-classes($color, $prefix: ".icon-") {
-	@each $icon, $svg in $saxicon-map {
+@mixin sax-classes($color, $prefix: ".icon-") {
+	@each $icon, $svg in $sax-map {
 		#{$prefix}#{$icon} {
-			$width: saxicon-width($icon);
-			$height: saxicon-height($icon);
-			background-image: saxicon-background($icon, $color);
+			$width: sax-width($icon);
+			$height: sax-height($icon);
+			background-image: sax-background($icon, $color);
 			background-size: $width $height;
 			width: $width;
 			height: $height;
@@ -17,8 +17,8 @@
 	}
 }
 
-@function saxicon-width($icon) {
-	$svg: map_get($saxicon-map, $icon);
+@function sax-width($icon) {
+	$svg: map_get($sax-map, $icon);
 
 	@if ($svg == null) {
 		@error "Icon does not exist: #{$icon}";
@@ -33,8 +33,8 @@
 	}
 }
 
-@function saxicon-height($icon) {
-	$svg: map_get($saxicon-map, $icon);
+@function sax-height($icon) {
+	$svg: map_get($sax-map, $icon);
 
 	@if ($svg == null) {
 		@error "Icon does not exist: #{$icon}";
@@ -49,26 +49,42 @@
 	}
 }
 
-@function saxicon-background($icon, $color) {
-	$color: str-slice(ie-hex-str($color), 4);
-	$color: "%23#{$color}";
-	$svg: map_get($saxicon-map, $icon);
-
+@function sax($icon, $args...) {
+	$svg: map_get($sax-map, $icon);
 	@if ($svg == null) {
 		@error "Icon does not exist: #{$icon}";
 	}
 
+	$default-color: null;
+	@if (type-of(nth($args, 1)) == color) {
+		$default-color: nth($args, 1);
+	}
+
+	$colors: keywords($args);
 	$parts: nth($svg, 3);
-	$count: length($parts);
 	$str: "";
 
-	@for $i from 1 through $count {
+	@for $i from 1 through length($parts) {
 		$part: nth($parts, $i);
-		@if ($i > 1) {
-			$str: "#{$str}#{$color}#{$part}";
-		} @else {
-			$str: "#{$str}#{$part}";
+
+		@if (type-of($part) == color) {
+			$color: map-get($colors, inspect($part));
+
+			@if ($color == null) {
+				@if ($default-color == null) {
+					$color: $part;
+				} @else {
+					$color: $default-color;
+				}
+			}
+
+			// @debug $color;
+			$color: str-slice(ie-hex-str($color), 4);
+			$part: "%23#{$color}";
 		}
+
+		$str: "#{$str}#{$part}";
 	}
+
 	@return url("data:image/svg+xml,#{$str}");
 }
