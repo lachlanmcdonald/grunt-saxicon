@@ -1,6 +1,8 @@
 /*
- * grunt-saxicon
- * Copyright (c) 2017 Deloitte Digital
+ * grunt-saxicon 0.3.0
+ * Copyright (c) 2017 Lachlan McDonald
+ * https://github.com/lachlanmcdonald/grunt-saxicon/
+ *
  * Licensed under the BSD 3-Clause license.
  */
 
