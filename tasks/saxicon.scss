@@ -5,7 +5,7 @@
  */
 
 @mixin sax-classes($color, $prefix: ".icon-") {
-	@each $icon, $svg in $sax-map {
+	@each $icon, $svg in $saxicon-map {
 		#{$prefix}#{$icon} {
 			$width: sax-width($icon);
 			$height: sax-height($icon);
@@ -18,7 +18,7 @@
 }
 
 @function sax-width($icon) {
-	$svg: map_get($sax-map, $icon);
+	$svg: map_get($saxicon-map, $icon);
 
 	@if ($svg == null) {
 		@error "Icon does not exist: #{$icon}";
@@ -34,7 +34,7 @@
 }
 
 @function sax-height($icon) {
-	$svg: map_get($sax-map, $icon);
+	$svg: map_get($saxicon-map, $icon);
 
 	@if ($svg == null) {
 		@error "Icon does not exist: #{$icon}";
@@ -50,7 +50,7 @@
 }
 
 @function sax($icon, $args...) {
-	$svg: map_get($sax-map, $icon);
+	$svg: map_get($saxicon-map, $icon);
 	@if ($svg == null) {
 		@error "Icon does not exist: #{$icon}";
 	}
