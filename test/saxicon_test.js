@@ -276,15 +276,42 @@ exports.saxicon = {
 		}.bind(this));
 	},
 
-	test_multi: function(test) {
+	// Does what it says on the box in libsass
+	test_multi_libsass: function(test) {
 		var outputPath = grunt.config('saxicon.test_multi.options.scss');
 		test.expect(1);
 
 		exec('grunt saxicon:test_multi', execOptions, function(error, stdout) {
 			var dest = path.join(path.dirname(outputPath), 'test.scss');
-			grunt.file.write(dest, '@import "saxicon";\n.test {background-image: sax(icon-03, $lime: #8403ff, $red: #8403ff, $black: #8403ff);}');
+			grunt.file.write(dest, [
+				'@import "saxicon";',
+				'.test1 {background-image: sax(icon-03, $lime: #8403ff, $red: #8403ff, $black: #8403ff);}',
+				'.test2 {background-image: sax(icon-03, #8403ff, $black: #8403ff);}',
+				'.test3 {background-image: sax(icon-03, #8403ff);}'
+			].join('\n'));
 
 			exec('sassc ' + dest, execOptions, function(error, stdout) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
+	},
+
+	// Does what it says on the box in Ruby SASS
+	test_multi_ruby: function(test) {
+		var outputPath = grunt.config('saxicon.test_multi.options.scss');
+		test.expect(1);
+
+		exec('grunt saxicon:test_multi', execOptions, function(error, stdout) {
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+			grunt.file.write(dest, [
+				'@import "saxicon";',
+				'.test1 {background-image: sax(icon-03, $lime: #8403ff, $red: #8403ff, $black: #8403ff);}',
+				'.test2 {background-image: sax(icon-03, #8403ff, $black: #8403ff);}',
+				'.test3 {background-image: sax(icon-03, #8403ff);}'
+			].join('\n'));
+
+			exec('sass ' + dest + ' --no-cache', execOptions, function(error, stdout) {
 				test.strictEqual(error, null);
 				test.done();
 			});
