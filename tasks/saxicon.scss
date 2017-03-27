@@ -61,8 +61,10 @@
 	}
 
 	$default-color: null;
-	@if (type-of(nth($args, 1)) == color) {
-		$default-color: nth($args, 1);
+	@if (length($args) > 1) {
+		@if (type-of(nth($args, 1)) == color) {
+			$default-color: nth($args, 1);
+		}
 	}
 
 	$colors: keywords($args);
