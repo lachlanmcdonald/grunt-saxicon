@@ -5,6 +5,8 @@
 
 > grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs (with both single or multi-colored shapes) within SASS, embedded as a data-URI.
 
+🌱 **This is a beta release**. For the last stable version, see [v0.2.5](https://github.com/lachlanmcdonald/grunt-saxicon/tree/v0.2.5).
+
 <ul>
 	<li><a href="#installation">Installation</a></li>
 	<li><a href="#getting-started">Getting Started</a></li>
@@ -26,7 +28,7 @@
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-saxicon --save-dev
+npm install grunt-saxicon@0.3.0-beta.1 --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -364,7 +366,7 @@ When using [variable arguments][sass-var-args], keys must be strings, as shown b
 $theme: ("red": #d700ee, "blue": #9600bb);
 ```
 
-With [certain versions of libsass](https://github.com/sass/libsass/ussues/2352), you may recieve a `Segmentation fault: 11` error instead of the above error message.
+With [certain versions of libsass](https://github.com/sass/libsass/issues/2352), you may recieve a `Segmentation fault: 11` error instead of the above error message.
 
 #### Reducing redundancy in generated CSS
 
