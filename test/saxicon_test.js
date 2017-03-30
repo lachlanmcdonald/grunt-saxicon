@@ -362,5 +362,45 @@ exports.saxicon = {
 
 			test.done();
 		}.bind(this));
+	},
+
+	test_multi_splat_ruby: function(test) {
+		var outputPath = grunt.config('saxicon.test_multi.options.scss');
+
+		exec('grunt saxicon:test_multi', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+			grunt.file.write(dest, [
+				'@import "saxicon";',
+				'$theme: ("lime": #8403ff, "red": #8403ff, "black": #8403ff);',
+				'.test {background-image: sax(icon-03, theme...);}'
+			].join('\n'));
+
+			exec('sass ' + dest + ' --no-cache', execOptions, function(error) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
+	},
+
+	test_multi_splat_libsass: function(test) {
+		var outputPath = grunt.config('saxicon.test_multi.options.scss');
+
+		exec('grunt saxicon:test_multi', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+			grunt.file.write(dest, [
+				'@import "saxicon";',
+				'$theme: ("lime": #8403ff, "red": #8403ff, "black": #8403ff);',
+				'.test {background-image: sax(icon-03, $theme...);}'
+			].join('\n'));
+
+			exec('sassc ' + dest, execOptions, function(error) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
 	}
 };
