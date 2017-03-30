@@ -149,7 +149,7 @@ By default, hex colors are replaced with their [SVG color keyword][colors] (i.e.
 **preferGray**  
 Type: `Boolean`
 
-Optional. If `true`, automatic conversion of SVG color names will prefer "gr_a_y" over "gr_e_y." This option will not change colors that were already defined with a [SVG color keyword][colors].
+Optional. If `true`, automatic conversion of SVG color names will prefer "gr<u>a</u>y" over "gr<u>e</u>y." This option will not change colors that were already defined with a [SVG color keyword][colors].
 
 <h2 id="sass">SASS</h2>
 
@@ -329,13 +329,13 @@ By default, colors are converted to their [SVG color keyword][colors] (configura
 
 - `cyan` is used instead of `aqua`
 - `magenta` is used instead of `fushsia`
-- Gr_e_y not gr_a_y. If you are feeling especially pedantic, you may use the `preferGray` option.
+- Gr<u>e</u>y not gr<u>a</u>y. If you are feeling especially pedantic, you may use the `preferGray` option.
 
 <h3 id="tests">Tests</h3>
 
 To run the tests, you will need both:
 
-1. [Ruby SASS](http://sass-lang.com/install) — available in your test environment as `sass`
+1. [Ruby SASS](http://sass-lang.com/unstall) — available in your test environment as `sass`
 2. A wrapper around [libsass](http://github.com/sass/libsass) (like [SassC](https://github.com/sass/sassc), which can be installed on macOS with [Homebrew](http://brewformulas.org/Sassc)) — available in your test environment as `sassc`
 
 To run the tests:
@@ -364,7 +364,7 @@ When using [variable arguments][sass-var-args], keys must be strings, as shown b
 $theme: ("red": #d700ee, "blue": #9600bb);
 ```
 
-With [certain versions of libsass](https://github.com/sass/libsass/issues/2352), you may recieve a `Segmentation fault: 11` error instead of the above error message.
+With [certain versions of libsass](https://github.com/sass/libsass/ussues/2352), you may recieve a `Segmentation fault: 11` error instead of the above error message.
 
 #### Reducing redundancy in generated CSS
 
