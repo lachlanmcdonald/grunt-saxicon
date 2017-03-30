@@ -1,6 +1,8 @@
 /*
- * grunt-saxicon
- * Copyright (c) 2016 Deloitte Digital
+ * grunt-saxicon 0.3.0
+ * Copyright (c) 2017 Lachlan McDonald
+ * https://github.com/lachlanmcdonald/grunt-saxicon/
+ *
  * Licensed under the BSD 3-Clause license.
  */
 
@@ -43,16 +45,16 @@ module.exports = function(grunt) {
 					}
 				}
 			},
-			test_ruby_scss: {
+			test_scss_ruby: {
 				options: {
 					source: "test/src",
-					scss: "tmp/test_ruby_scss/saxicon.scss"
+					scss: "tmp/test_scss_ruby/_saxicon.scss"
 				}
 			},
-			test_libsass_scss: {
+			test_scss_libsass: {
 				options: {
 					source: "test/src",
-					scss: "tmp/test_libsass_scss/saxicon.scss"
+					scss: "tmp/test_scss_libsass/_saxicon.scss"
 				}
 			},
 			test_svgs: {
@@ -113,6 +115,25 @@ module.exports = function(grunt) {
 					json: "tmp/test_no_dimensions/data.json",
 					scss: "tmp/test_no_dimensions/saxicon.scss"
 				}
+			},
+			test_auto_color_naming: {
+				options: {
+					source: "test/src/multi",
+					json: "tmp/test_auto_color_naming/test.json"
+				}
+			},
+			test_multi: {
+				options: {
+					source: "test/src/multi",
+					scss: "tmp/test_multi/_saxicon.scss"
+				}
+			},
+			test_gray: {
+				options: {
+					preferGray: true,
+					source: "test/src/gray",
+					json: "tmp/test_gray/test.json"
+				}
 			}
 		},
 
@@ -132,7 +153,7 @@ module.exports = function(grunt) {
 
 	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
 	// plugin's task(s), then test the result.
-	grunt.registerTask('test', ['clean', 'nodeunit', 'clean']);
+	grunt.registerTask('test', ['clean', 'nodeunit']);
 
 	// By default, lint and run all tests.
 	grunt.registerTask('default', ['clean', 'jshint', 'test']);

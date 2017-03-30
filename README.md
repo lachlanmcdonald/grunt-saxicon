@@ -1,11 +1,27 @@
 # 🎷 grunt-saxicon
 
-[![npm version](https://badge.fury.io/js/grunt-saxicon.svg)](https://badge.fury.io/js/grunt-saxicon)
-![Build status](https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master)
+[![npm version][npm-img]](https://badge.fury.io/js/grunt-saxicon)
+![Build status][build-img]
 
-> grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs within SASS embedded as a data-URI.
+> grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs (with both single or multi-colored shapes) within SASS, embedded as a data-URI.
 
-## Getting started
+<ul>
+	<li><a href="#installation">Installation</a></li>
+	<li><a href="#getting-started">Getting Started</a></li>
+	<li><a href="#options">Options</a></li>
+	<li><a href="#sass">SASS</a></li>
+	<li><a href="#advanced-options">Advanced options</a></li>
+	<li><a href="#notes">Notes</a><ul>
+		<li><a href="#icon-names">Icon names</a></li>
+		<li><a href="#colors-in-svgs">Colors in SVGs</a></li>
+		<li><a href="#tests">Tests</a></li>
+		<li><a href="#browser-support">Browser Support</a></li>
+		<li><a href="#troubleshooting">Troubleshooting</a></li>
+	</ul></li>
+	<li><a href="#license">License</a></li>
+</ul>
+
+<h2 id="installation">Installation</h2>
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -19,8 +35,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-saxicon');
 ```
 
-
-## Task
+<h2 id="getting-started">Getting Started</h2>
 
 Add the following to your `Gruntfile.js`:
 
@@ -31,7 +46,7 @@ grunt.initConfig({
 		taskName: {
 			source: "path/to/svgs/",
 			scss: "path/to/saxicon.scss"
-		}	
+		}   
 	}
 });
 ```
@@ -42,98 +57,145 @@ Then in your SCSS files, import the SCSS output:
 @include "path/to/saxicon";
 ```
 
-You can then add data-URI encoded colorized SVGs as simple as:
+### Single color SVGs
+
+To output a SVG in a single color, you can call the `sax` function with a single color as shown below:
 
 ```scss
 .red-arrow {
-    background-image: saxicon-background(arrow, red);
+	background-image: sax(arrow, #F00);
 }
 ```
+
+Which will compile to:
+
 ```css
 .red-arrow {
 	background-image: url("data:image/svg+xml,...");
 }
 ```
 
+### Multi-color SVGs
 
-## Options
+To output a SVG in multiple colors, first you must replace the `stroke` and `fill` attributes in your SVG with a [color keyword][colors] — i.e. `red`, `magenta`, etc. The keyword you choose are used as a reference for when you want to replace that color in your SASS.
+
+For example, with the following SVG:
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+	<rect fill="red" x="0" y="0" width="10" height="10"/>
+	<rect fill="blue" x="10" y="10" width="10" height="10"/>
+</svg>
+```
+
+You can replace these colors in your SASS with:
+
+```scss
+.arrow {
+	background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
+}
+```
+
+By default, if you do not include a replacement color, the original color (as defined in the SVG) will be used instead. Whilst this is useful for debugging, you can also set a default color as the second argument for when a keyword is omitted:
+
+```scss
+.arrow {
+	background-image: sax(arrow, #000, $red: #d700ee);
+}
+```
+
+Additionally, you can use a [variable arguments][sass-var-args] for consistent theming:
+
+```scss
+$theme: ("red": #d700ee, "blue": #9600bb);
+
+.arrow {
+	background-image: sax(arrow, $theme...);
+}
+```
+
+<h2 id="options">Options</h2>
 
 **source**  
 Type: `String`
 
 Path to the directory which contains the SVG files.
 
-- This path is not searched recursively
-- It is highly recommended that you minify these files first using [grunt-svgmin]
+- This path is not searched recursively.
+- It is highly recommended that you minify these files first using [svgo] or [grunt-svgmin].
 
 **scss**  
 Type: `String`  
 
-Destination file for SCSS output.
+Destination for SCSS output.
 
 **iconName**  
 Type: `Function`
 
 Optional callback function used to generate icon names for your SCSS and SVG files.
 
+**defaultColor**  
+Type: `String`
 
-## Icon names
+Certain SVG shapes are presumed to have a fill, even if a `fill` attribute it not provided. By default, these shapes are given a fill of `black`. If provided, this option overrides the default value for the `fill` attribute.
 
-Each SVG will be named after the original  filename (without its extension).  
-i.e. `arrow-left.svg` becomes `arrow-left`.
+(If no fill is desired, you should add `fill="none"` to the shape in your SVG.)
 
-You can override how the names are produced by providing your own function to `iconName`:
+**autoColorNaming**  
+Type: `Boolean`
 
-```js
-{
-	iconName: function(fileName) {
-		return fileName.replace(/^.*_(.*)\.svg$/, '$1');
-	}
-}
-```
+By default, hex colors are replaced with their [SVG color keyword][colors] (i.e. `red` instead of `#F00`). If `false`, automatic replacements are not performed.
 
-The function must return a valid [SASS map key](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps). (Will work when passed to [`map-get()`](http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method))
+**preferGray**  
+Type: `Boolean`
 
+Optional. If `true`, automatic conversion of SVG color names will prefer "gr<u>a</u>y" over "gr<u>e</u>y." This option will not change colors that were already defined with a [SVG color keyword][colors].
 
-## Attributes vs. CSS
+<h2 id="sass">SASS</h2>
 
-grunt-saxicon only works with the `fill` and `stroke` attributes. If you use `style` attributes, you can convert these to attributes using [svgo] or [grunt-svgmin].
+__sax__($icon, $keywords...)
 
-Styles applied via the `<style>` tag are ignored.
+- **$icon** ([String][sass-string]): Icon name
+- **$keywords...** Color replacements, see below
 
-## SASS
+Returns the specified icon, either in a single color or in multiple colors, as a data-URI. Colors are converted to a six-digit hex string (alpha is not included). Raises an error if the icon does not exist.
 
-__saxicon-background__($icon, $color)
-
-- **$icon** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings)): Icon name
-- **$color** ([Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors))
-
-Returns the specified icon in the specified color as a data-URI. Colors are converted to a six-digit hex string (alpha is not included). Raises an error if the icon does not exist.
+To replace a single color:
 
 ```scss
-.red-arrow {
-	background-image: saxicon-background(arrow, red);
+.arrow {
+	background-image: sax(arrow, #000);
 }
 ```
 
-```css
-.red-arrow {
-	background-image: url("data:image/svg+xml,...");
+To replace with multiple-colors:
+
+```scss
+.arrow {
+	background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
 }
 ```
 
-__saxicon-width__ ($icon)  
-__saxicon-height__ ($icon)
+To replace with some colors and an optional default:
 
-- **$icon** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings)): Icon name
+```scss
+.arrow {
+	background-image: sax(arrow, #000, $red: #d700ee);
+}
+```
+
+__sax-width__ ($icon)  
+__sax-height__ ($icon)
+
+- **$icon** ([String][sass-string]): Icon name
 
 Returns the icon's width or height in pixels, as defined by the SVG's `width` and `height` attributes (or the `viewBox` attribute). This isn't guaranteed to be a whole-number if the SVG uses fractional dimensions. Raises an error if the icon does not exist.
 
 ```scss
 .arrow {
-	background-size: saxicon-width(arrow) saxicon-height(arrow);
-	width: saxicon-width(arrow);
-	height: saxicon-height(arrow);
+	background-size: sax-width(arrow) sax-height(arrow);
+	width: sax-width(arrow);
+	height: sax-height(arrow);
 }
 ```
 
@@ -145,18 +207,15 @@ Returns the icon's width or height in pixels, as defined by the SVG's `width` an
 }
 ```
 
-__saxicon-classes__($color, $prefix: ".icon")
+__sax-classes__($color, $prefix)
 
-- **$color** ([Color](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#colors))
-- **$prefix** ([String](http://www.sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings))
+- **$color** ([Color]([sass-color]))
+- **$prefix** ([String][sass-string]): Prepended to every rule. Defaults to `.icon-`.
 
-Outputs a class for every icon in the specified color.
-
-- **$prefix** is prepended to every rule (defaults to `.icon-`).
-- This mixin also outputs a `width`, `height` and `background-size` based on the SVG's original dimensions.
+Outputs a class for every icon in the specified color. This mixin also outputs a `width`, `height` and `background-size` based on the SVG's original dimensions.
 
 ```scss
-@include saxicon-classes(red, ".icon-red-");
+@include sax-classes(red, ".icon-red-");
 ```
 
 ```css
@@ -166,15 +225,14 @@ Outputs a class for every icon in the specified color.
 .icon-red-right-arrow {...}
 ```
 
+<h2 id="advanced-options">Advanced options</h2>
 
-## Advanced options
-
-> These options are secondary to colorizing and embedded SVGs in your CSS, but are included as they might come in handy for some projects.
+> These options are secondary to colorizing and embedded SVGs in your CSS, but are included as they might come in handy.
 
 **svgs.target**  
 Type: `String`
 
-If provided, colorizes and exports the SVGs into the directory provided. If provided, you must also specify the `svgs.colors`. See also: `outputPath`.
+If provided, colorizes and exports the SVGs in a single color into the directory provided. If provided, you must also specify the `svgs.colors`. See also: `outputPath`.
 
 ```js
 {
@@ -196,21 +254,12 @@ An object of color-name pairs. Each key is the color's name, and its value the c
 **outputPath**  
 Type: `Function`
 
-	Optional callback function used to generate the output path for exported SVGs. Paths are relative to the `svgs.target` property.
-
-```js
-{
-	outputPath: function(filePath, iconName, colorName, color) {
-		return iconName + '__' + colorName.toUpperCase() + '.svg';
-	}
-}
-```
+Optional callback function used to generate the output path for exported SVGs. Paths are relative to the `svgs.target` property. See below for more information.
 
 **json**  
 Type: `String`
 
-If provided, exports the intermediate SVG data in a single JSON file, which can be used for testing or as input for use with other tasks, etc.
-
+If provided, exports the intermediate SVG data in a single JSON file. Useful for testing, or as input for use with other tasks, etc.
 
 ### Outputting individual SVG files
 
@@ -251,38 +300,84 @@ The function will receive these arguments for every icon-color combination:
 - **colorName** (String): Color's name. This is each key in the `colors` object.
 - **color** (String): Color. The is each value in the `colors` object.
 
+<h2 id="notes">Notes</h2>
 
-## Housekeeping
+<h3 id="icon-names">Icon names</h3>
 
-### Running tests
+Each SVG will be named after the original  filename (without its extension).  
+i.e. `arrow-left.svg` becomes `arrow-left`.
+
+You can override how the names are produced by providing your own function to `iconName`, as illustrated below:
+
+```js
+{
+	iconName: function(fileName) {
+		return fileName.replace(/^.*_(.*)\.svg$/, '$1');
+	}
+}
+```
+
+The function must return a valid [SASS map key][sass-map]. That is, a string which will work when passed to [`map-get()`][sass-map-get].
+
+<h3 id="colors-in-svgs">Colors in SVGs</h3>
+
+grunt-saxicon only works with the `fill` and `stroke` attributes. If you use `style` attributes, you should first convert these to attributes using [svgo] or [grunt-svgmin].
+
+Styles applied via the `<style>` tag are ignored.
+
+By default, colors are converted to their [SVG color keyword][colors] (configurable with the `autoColorNaming` option). Some colors share the same keyword, as noted below:
+
+- `cyan` is used instead of `aqua`
+- `magenta` is used instead of `fushsia`
+- Gr<u>e</u>y not gr<u>a</u>y. If you are feeling especially pedantic, you may use the `preferGray` option.
+
+<h3 id="tests">Tests</h3>
 
 To run the tests, you will need both:
 
-1. [Ruby SASS](http://sass-lang.com/install) — available in your environment as `sass`
-2. A wrapper around [libsass](http://github.com/sass/libsass) (like [SassC](https://github.com/sass/sassc), which can be easily installed on macOS with [Homebrew](http://brewformulas.org/Sassc)) — available in your environment as `sassc`
+1. [Ruby SASS](http://sass-lang.com/unstall) — available in your test environment as `sass`
+2. A wrapper around [libsass](http://github.com/sass/libsass) (like [SassC](https://github.com/sass/sassc), which can be installed on macOS with [Homebrew](http://brewformulas.org/Sassc)) — available in your test environment as `sassc`
 
-To run the tests, use:
+To run the tests:
 
 ```sh
 grunt test
 ```
 
-### Support
+<h3 id="browser-support">Browser Support</h3>
 
-Data URI-encoded SVG files using the above method is supported in all ever-green browsers (Chrome, Firefox, Safari and Edge) and Internet Explorer 9+.
+Data URI-encoded SVG files are supported in all ever-green browsers (Chrome, Firefox, Safari, and Edge) and Internet Explorer 9+.
 
-### Best practices
+<h3 id="troubleshooting">Troubleshooting</h3>
 
-You may find your generated CSS gets large if you reuse the same icon and color combination across a number of selectors.
+#### SVG display issues in IE
 
-Instead, extend a [placeholder selector](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#placeholder_selectors_):
+SVGs, when resized using `background-size` sometimes clip beyond the element's boundaries or appear mis-aligned. This especially occurs when using a value of `cover` or `contain`.
+
+Whilst not identical, values of `100% auto` or `auto 100%` (or absolute values in pixels) should to fix these display issues.
+
+#### "Variable keyword argument map must have string keys"
+
+When using [variable arguments][sass-var-args], keys must be strings, as shown below:
+
+```scss
+$theme: ("red": #d700ee, "blue": #9600bb);
+```
+
+With [certain versions of libsass](https://github.com/sass/libsass/ussues/2352), you may recieve a `Segmentation fault: 11` error instead of the above error message.
+
+#### Reducing redundancy in generated CSS
+
+You may find your generated CSS can become large if you reuse the same icon and color combination across a number of selectors.
+
+One solution is to extend a [placeholder selector](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#placeholder_selectors_):
 
 ```scss
 %icon-arrow-red {
-	background-image: saxicon-background(arrow, red);
-	background-size: saxicon-width(arrow) saxicon-height(arrow);
-	width: saxicon-width(arrow);
-	height: saxicon-height(arrow);
+	background-image: sax(arrow, red);
+	background-size: sax-width(arrow) sax-height(arrow);
+	width: sax-width(arrow);
+	height: sax-height(arrow);
 }
 
 .a {@extend %icon-arrow-red;}
@@ -299,10 +394,10 @@ Instead, extend a [placeholder selector](http://sass-lang.com/documentation/file
 }
 ```
 
-You can also create placeholder selectors for every icon at once with the `saxicon-classes()` mixin:
+You can also create placeholder selectors for every icon at once with the `sax-classes()` mixin:
 
 ```scss
-@include saxicon-classes(red, '%icon-');
+@include sax-classes(red, '%icon-');
 
 .a {@extend %icon-arrow;}
 .b {@extend %icon-arrow;}
@@ -311,12 +406,11 @@ You can also create placeholder selectors for every icon at once with the `saxic
 
 Keep in that mind that selectors which `@extend` placeholder selectors are included in your CSS output at the location where the placeholder selector was defined. Be mindful of specificity, if you wish to change these classes later.
 
-
-### License
+<h2 id="license">License</h2>
 
 This code is distributed under the BSD-3-Clause license, as included below:
 
-> Copyright (C) 2016, Lachlan McDonald. All rights reserved.
+> Copyright (C) 2017, Lachlan McDonald. All rights reserved.
 >
 > grunt-saxicon can be downloaded from: https://github.com/lachlanmcdonald/grunt-saxicon
 >
@@ -329,5 +423,13 @@ This code is distributed under the BSD-3-Clause license, as included below:
 >
 > THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+[colors]: https://www.w3.org/TR/SVG/types.html#ColorKeywords
 [svgo]: https://github.com/svg/svgo/
 [grunt-svgmin]: https://github.com/sindresorhus/grunt-svgmin/
+[npm-img]: https://badge.fury.io/js/grunt-saxicon.svg
+[build-img]: https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master
+[sass-color]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#colors
+[sass-string]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings
+[sass-map]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps
+[sass-map-get]: http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method
+[sass-var-args]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#variable_arguments

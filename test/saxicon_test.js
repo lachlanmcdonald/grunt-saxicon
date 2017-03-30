@@ -2,47 +2,58 @@
 
 var grunt = require('grunt'),
 	exec = require('child_process').exec,
-	path = require('path'),
-	execOptions,
-	srcSVGs;
+	path = require('path');
+
+var execOptions;
 
 execOptions = {
 	cwd: path.join(__dirname, '..')
 };
 
-srcSVGs = grunt.file.expand({
-	cwd: 'test/src'
-}, '*.svg').map(function(x) {
-	return [path.basename(x, '.svg'), '.svg'];
-});
-
 exports.saxicon = {
 	// Get list of test SVGs
 	setUp: function(done) {
-		this.svgs = srcSVGs;
+		this.svgs = grunt.file.expand({
+			cwd: 'test/src'
+		}, '*.svg').map(function(x) {
+			return [path.basename(x, '.svg'), '.svg'];
+		});
+
 		done();
 	},
 
-	// Ruby SASS can compile
-	test_ruby_scss: function(test) {
-		var outputPath = grunt.config('saxicon.test_ruby_scss.options.scss');
-		test.expect(1);
+	// Ruby SASS can compile when functions are used
+	test_scss_ruby: function(test) {
+		var outputPath = grunt.config('saxicon.test_scss_ruby.options.scss');
+		test.expect(2);
 
-		exec('grunt saxicon:test_ruby_scss', execOptions, function(error, stdout) {
-			exec('sass ' + outputPath + ' --no-cache', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_scss_ruby', execOptions, function(error) {
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+
+			test.strictEqual(error, null);
+
+			grunt.file.write(dest, '@import "saxicon";\n@include sax-classes(blue);');
+
+			exec('sass ' + dest + ' --no-cache', execOptions, function(error) {
 				test.strictEqual(error, null);
 				test.done();
 			});
 		});
 	},
 
-	// libSass (sassc) can compile
-	test_libsass_scss: function(test) {
-		var outputPath = grunt.config('saxicon.test_libsass_scss.options.scss');
-		test.expect(1);
+	// libSass (sassc) can compile when functions are used
+	test_scss_libsass: function(test) {
+		var outputPath = grunt.config('saxicon.test_scss_libsass.options.scss');
+		test.expect(2);
 
-		exec('grunt saxicon:test_libsass_scss', execOptions, function(error, stdout) {
-			exec('sassc ' + outputPath, execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_scss_libsass', execOptions, function(error) {
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+
+			test.strictEqual(error, null);
+
+			grunt.file.write(dest, '@import "saxicon";\n@include sax-classes(blue);');
+
+			exec('sassc ' + dest, execOptions, function(error) {
 				test.strictEqual(error, null);
 				test.done();
 			});
@@ -53,12 +64,13 @@ exports.saxicon = {
 	// colors specified in the test_svgs task
 	test_svgs: function(test) {
 		var colors = Object.keys(grunt.config('saxicon.test_svgs.options.svgs.colors')),
-			outputPath = grunt.config('saxicon.test_svgs.options.svgs.target'),
-			output;
+			outputPath = grunt.config('saxicon.test_svgs.options.svgs.target');
 
-		test.expect(1 + (this.svgs.length * colors.length));
+		test.expect(2 + (this.svgs.length * colors.length));
 
-		exec('grunt saxicon:test_svgs', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_svgs', execOptions, function(error) {
+			test.strictEqual(error, null);
+
 			var svgs = grunt.file.expand({
 				cwd: outputPath
 			}, '*.svg');
@@ -81,12 +93,13 @@ exports.saxicon = {
 	// outputPath callback.
 	test_svgs2: function(test) {
 		var colors = Object.keys(grunt.config('saxicon.test_svgs2.options.svgs.colors')),
-			outputPath = grunt.config('saxicon.test_svgs2.options.svgs.target'),
-			output;
+			outputPath = grunt.config('saxicon.test_svgs2.options.svgs.target');
 
-		test.expect(1 + (this.svgs.length * colors.length));
+		test.expect(2 + (this.svgs.length * colors.length));
 
-		exec('grunt saxicon:test_svgs2', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_svgs2', execOptions, function(error) {
+			test.strictEqual(error, null);
+
 			var svgs = grunt.file.expand({
 				cwd: outputPath
 			}, '*.svg');
@@ -109,13 +122,13 @@ exports.saxicon = {
 	// iconName and outputPath callbacks.
 	test_svgs3: function(test) {
 		var colors = Object.keys(grunt.config('saxicon.test_svgs3.options.svgs.colors')),
-			outputPath = grunt.config('saxicon.test_svgs3.options.svgs.target'),
-			fn = grunt.config('saxicon.test_svgs3.options.iconName'),
-			output;
+			fn = grunt.config('saxicon.test_svgs3.options.iconName');
 
-		test.expect(1 + (this.svgs.length * colors.length));
+		test.expect(2 + (this.svgs.length * colors.length));
 
-		exec('grunt saxicon:test_svgs3', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_svgs3', execOptions, function(error) {
+			test.strictEqual(error, null);
+
 			var svgs = grunt.file.expand({
 				cwd: 'tmp/test_svgs3/svgs'
 			}, '*.svg');
@@ -148,10 +161,12 @@ exports.saxicon = {
 			icon: 'string'
 		};
 
-		test.expect(2 + (Object.keys(keys).length + 1) * this.svgs.length);
+		test.expect(3 + (Object.keys(keys).length + 1) * this.svgs.length);
 
-		exec('grunt saxicon:test_json', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_json', execOptions, function(error) {
 			var data;
+
+			test.strictEqual(error, null);
 
 			// Test that JSON output is parseable
 			test.doesNotThrow(function() {
@@ -180,12 +195,14 @@ exports.saxicon = {
 	test_json2: function(test) {
 		var outputPath = grunt.config('saxicon.test_json2.options.json'),
 			fn = grunt.config('saxicon.test_json2.options.iconName');
-		test.expect(1);
+		test.expect(2);
 
-		exec('grunt saxicon:test_json2', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_json2', execOptions, function(error) {
 			var data = grunt.file.readJSON(outputPath),
 				iconNames,
 				svgs;
+
+			test.strictEqual(error, null);
 
 			svgs = this.svgs.map(function(svg) {
 				return fn(svg.join(''));
@@ -204,8 +221,10 @@ exports.saxicon = {
 	test_dimensions: function(test) {
 		var outputPath = grunt.config('saxicon.test_dimensions.options.json');
 
-		exec('grunt saxicon:test_dimensions', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_dimensions', execOptions, function(error) {
 			var data;
+
+			test.strictEqual(error, null);
 
 			test.doesNotThrow(function() {
 				data = grunt.file.readJSON(outputPath);
@@ -225,8 +244,10 @@ exports.saxicon = {
 	test_no_dimensions: function(test) {
 		var outputPath = grunt.config('saxicon.test_no_dimensions.options.json');
 
-		exec('grunt saxicon:test_no_dimensions', execOptions, function(error, stdout) {
+		exec('grunt saxicon:test_no_dimensions', execOptions, function(error) {
 			var data;
+
+			test.strictEqual(error, null);
 
 			test.doesNotThrow(function() {
 				data = grunt.file.readJSON(outputPath);
@@ -239,5 +260,147 @@ exports.saxicon = {
 
 			test.done();
 		}.bind(this));
+	},
+
+	// Test that auto-naming is converting hex colors into the SVG color keywords
+	test_auto_color_naming: function(test) {
+		var outputPath = grunt.config('saxicon.test_auto_color_naming.options.json');
+
+		exec('grunt saxicon:test_auto_color_naming', execOptions, function(error) {
+			var data;
+
+			test.strictEqual(error, null);
+
+			test.doesNotThrow(function() {
+				data = grunt.file.readJSON(outputPath);
+			});
+
+			test.equal(data[0].components[1], 'red');
+			test.equal(data[0].components[3], 'lime');
+
+			test.equal(data[1].components[1], 'lime');
+			test.equal(data[1].components[3], 'red');
+			test.equal(data[1].components[5], 'blue');
+
+			test.equal(data[2].components[1], 'lime');
+			test.equal(data[2].components[3], 'red');
+			test.equal(data[2].components[5], 'blue');
+
+			test.equal(data[3].components[1], 'lime');
+			test.equal(data[3].components[3], 'red');
+			test.equal(data[3].components[5], 'black');
+
+			test.done();
+		}.bind(this));
+	},
+
+	// Does what it says on the box in libsass
+	test_multi_libsass: function(test) {
+		var outputPath = grunt.config('saxicon.test_multi.options.scss');
+
+		exec('grunt saxicon:test_multi', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+			grunt.file.write(dest, [
+				'@import "saxicon";',
+				'.test1 {background-image: sax(icon-03, $lime: #8403ff, $red: #8403ff, $black: #8403ff);}',
+				'.test2 {background-image: sax(icon-03, #8403ff, $black: #8403ff);}',
+				'.test3 {background-image: sax(icon-03, #8403ff);}'
+			].join('\n'));
+
+			exec('sassc ' + dest, execOptions, function(error) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
+	},
+
+	// Does what it says on the box in Ruby SASS
+	test_multi_ruby: function(test) {
+		var outputPath = grunt.config('saxicon.test_multi.options.scss');
+
+		exec('grunt saxicon:test_multi', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+
+			grunt.file.write(dest, [
+				'@import "saxicon";',
+				'.test1 {background-image: sax(icon-03, $lime: #8403ff, $red: #8403ff, $black: #8403ff);}',
+				'.test2 {background-image: sax(icon-03, #8403ff, $black: #8403ff);}',
+				'.test3 {background-image: sax(icon-03, #8403ff);}'
+			].join('\n'));
+
+			exec('sass ' + dest + ' --no-cache', execOptions, function(error) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
+	},
+
+	// Test gray
+	test_gray: function(test) {
+		var outputPath = grunt.config('saxicon.test_gray.options.json');
+
+		exec('grunt saxicon:test_gray', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			var data;
+
+			test.doesNotThrow(function() {
+				data = grunt.file.readJSON(outputPath);
+			});
+
+			// These two are converted automatically
+			test.equal(data[0].components[1], 'darkgray');
+			test.equal(data[0].components[5], 'lightgray');
+
+			// This color was defined as a keyword and shouldn't
+			// be changed
+			test.equal(data[0].components[3], 'grey');
+
+			test.done();
+		}.bind(this));
+	},
+
+	test_multi_splat_ruby: function(test) {
+		var outputPath = grunt.config('saxicon.test_multi.options.scss');
+
+		exec('grunt saxicon:test_multi', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+			grunt.file.write(dest, [
+				'@import "saxicon";',
+				'$theme: ("lime": #8403ff, "red": #8403ff, "black": #8403ff);',
+				'.test {background-image: sax(icon-03, theme...);}'
+			].join('\n'));
+
+			exec('sass ' + dest + ' --no-cache', execOptions, function(error) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
+	},
+
+	test_multi_splat_libsass: function(test) {
+		var outputPath = grunt.config('saxicon.test_multi.options.scss');
+
+		exec('grunt saxicon:test_multi', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			var dest = path.join(path.dirname(outputPath), 'test.scss');
+			grunt.file.write(dest, [
+				'@import "saxicon";',
+				'$theme: ("lime": #8403ff, "red": #8403ff, "black": #8403ff);',
+				'.test {background-image: sax(icon-03, $theme...);}'
+			].join('\n'));
+
+			exec('sassc ' + dest, execOptions, function(error) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
 	}
 };
