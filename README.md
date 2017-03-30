@@ -3,7 +3,7 @@
 [![npm version][npm-img]](https://badge.fury.io/js/grunt-saxicon)
 ![Build status][build-img]
 
-> grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs (with multi-color support) within SASS embedded as a data-URI.
+> grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs (with both single or multi-colored shapes) within SASS, embedded as a data-URI.
 
 <ul>
 	<li><a href="#installation">Installation</a></li>
@@ -59,7 +59,7 @@ Then in your SCSS files, import the SCSS output:
 
 ### Single color SVGs
 
-To output a SVG in a single color, you can call the `sax` function with a single color (and no keyword arguments) as shown below:
+To output a SVG in a single color, you can call the `sax` function with a single color as shown below:
 
 ```scss
 .red-arrow {
@@ -77,13 +77,15 @@ Which will compile to:
 
 ### Multi-color SVGs
 
-To output a SVG in multiple colors, first you must replace the `stroke` and `fill` attributes in your SVG with a [color keyword][colors] — i.e. `red`, `magenta`, etc. The keyword you choose is used as a reference for when you want to replace that color in your SASS.
+To output a SVG in multiple colors, first you must replace the `stroke` and `fill` attributes in your SVG with a [color keyword][colors] — i.e. `red`, `magenta`, etc. The keyword you choose are used as a reference for when you want to replace that color in your SASS.
 
-For example, if your SVG were to contain:
+For example, with the following SVG:
 
 ```xml
-<rect fill="red" x="10" y="10" width="10" height="10"/>
-<rect fill="blue" x="20" y="20" width="10" height="10"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+	<rect fill="red" x="0" y="0" width="10" height="10"/>
+	<rect fill="blue" x="10" y="10" width="10" height="10"/>
+</svg>
 ```
 
 You can replace these colors in your SASS with:
@@ -102,6 +104,15 @@ By default, if you do not include a replacement color, the original color (as de
 }
 ```
 
+Additionally, you can use a [variable arguments][sass-var-args] for consistent theming:
+
+```scss
+$theme: ("red": #d700ee, "blue": #9600bb);
+
+.arrow {
+    background-image: sax(arrow, $theme...);
+}
+```
 
 <h2 id="options">Options</h2>
 
@@ -345,6 +356,16 @@ SVGs, when resized using `background-size` sometimes clip beyond the element's b
 
 Whilst not identical, values of `100% auto` or `auto 100%` (or absolute values in pixels) should to fix these display issues.
 
+#### "Variable keyword argument map must have string keys"
+
+When using [variable arguments][sass-var-args], keys must be strings, as shown below:
+
+```scss
+$theme: ("red": #d700ee, "blue": #9600bb);
+```
+
+With [certain versions of libsass](https://github.com/sass/libsass/issues/2352), you may recieve a `Segmentation fault: 11` error instead of the above error message.
+
 #### Reducing redundancy in generated CSS
 
 You may find your generated CSS can become large if you reuse the same icon and color combination across a number of selectors.
@@ -411,3 +432,4 @@ This code is distributed under the BSD-3-Clause license, as included below:
 [sass-string]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings
 [sass-map]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps
 [sass-map-get]: http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method
+[sass-var-args]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#variable_arguments
