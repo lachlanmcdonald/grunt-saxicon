@@ -46,7 +46,7 @@ grunt.initConfig({
 		taskName: {
 			source: "path/to/svgs/",
 			scss: "path/to/saxicon.scss"
-		}	
+		}   
 	}
 });
 ```
@@ -63,7 +63,7 @@ To output a SVG in a single color, you can call the `sax` function with a single
 
 ```scss
 .red-arrow {
-    background-image: sax(arrow, #F00);
+	background-image: sax(arrow, #F00);
 }
 ```
 
@@ -92,7 +92,7 @@ You can replace these colors in your SASS with:
 
 ```scss
 .arrow {
-    background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
+	background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
 }
 ```
 
@@ -100,7 +100,7 @@ By default, if you do not include a replacement color, the original color (as de
 
 ```scss
 .arrow {
-    background-image: sax(arrow, #000, $red: #d700ee);
+	background-image: sax(arrow, #000, $red: #d700ee);
 }
 ```
 
@@ -110,7 +110,7 @@ Additionally, you can use a [variable arguments][sass-var-args] for consistent t
 $theme: ("red": #d700ee, "blue": #9600bb);
 
 .arrow {
-    background-image: sax(arrow, $theme...);
+	background-image: sax(arrow, $theme...);
 }
 ```
 
@@ -164,7 +164,7 @@ To replace a single color:
 
 ```scss
 .arrow {
-    background-image: sax(arrow, #000);
+	background-image: sax(arrow, #000);
 }
 ```
 
@@ -172,7 +172,7 @@ To replace with multiple-colors:
 
 ```scss
 .arrow {
-    background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
+	background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
 }
 ```
 
@@ -180,7 +180,7 @@ To replace with some colors and an optional default:
 
 ```scss
 .arrow {
-    background-image: sax(arrow, #000, $red: #d700ee);
+	background-image: sax(arrow, #000, $red: #d700ee);
 }
 ```
 
