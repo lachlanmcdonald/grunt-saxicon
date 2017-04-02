@@ -8,19 +8,19 @@
 🌱 **This is a beta release**. For the last stable version, see [v0.2.5](https://github.com/lachlanmcdonald/grunt-saxicon/tree/v0.2.5).
 
 <ul>
-	<li><a href="#installation">Installation</a></li>
-	<li><a href="#getting-started">Getting Started</a></li>
-	<li><a href="#options">Options</a></li>
-	<li><a href="#sass">SASS</a></li>
-	<li><a href="#advanced-options">Advanced options</a></li>
-	<li><a href="#notes">Notes</a><ul>
-		<li><a href="#icon-names">Icon names</a></li>
-		<li><a href="#colors-in-svgs">Colors in SVGs</a></li>
-		<li><a href="#tests">Tests</a></li>
-		<li><a href="#browser-support">Browser Support</a></li>
-		<li><a href="#troubleshooting">Troubleshooting</a></li>
-	</ul></li>
-	<li><a href="#license">License</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#options">Options</a></li>
+    <li><a href="#sass">SASS</a></li>
+    <li><a href="#advanced-options">Advanced options</a></li>
+    <li><a href="#notes">Notes</a><ul>
+        <li><a href="#icon-names">Icon names</a></li>
+        <li><a href="#colors-in-svgs">Colors in SVGs</a></li>
+        <li><a href="#tests">Tests</a></li>
+        <li><a href="#browser-support">Browser Support</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ul></li>
+    <li><a href="#license">License</a></li>
 </ul>
 
 <h2 id="installation">Installation</h2>
@@ -44,12 +44,12 @@ Add the following to your `Gruntfile.js`:
 ```js
 require('load-grunt-tasks')(grunt);
 grunt.initConfig({
-	saxicon: {
-		taskName: {
-			source: "path/to/svgs/",
-			scss: "path/to/saxicon.scss"
-		}   
-	}
+    saxicon: {
+        taskName: {
+            source: "path/to/svgs/",
+            scss: "path/to/saxicon.scss"
+        }   
+    }
 });
 ```
 
@@ -65,7 +65,7 @@ To output a SVG in a single color, you can call the `sax` function with a single
 
 ```scss
 .red-arrow {
-	background-image: sax(arrow, #F00);
+    background-image: sax(arrow, #F00);
 }
 ```
 
@@ -73,7 +73,7 @@ Which will compile to:
 
 ```css
 .red-arrow {
-	background-image: url("data:image/svg+xml,...");
+    background-image: url("data:image/svg+xml,...");
 }
 ```
 
@@ -85,8 +85,8 @@ For example, with the following SVG:
 
 ```xml
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-	<rect fill="red" x="0" y="0" width="10" height="10"/>
-	<rect fill="blue" x="10" y="10" width="10" height="10"/>
+    <rect fill="red" x="0" y="0" width="10" height="10"/>
+    <rect fill="blue" x="10" y="10" width="10" height="10"/>
 </svg>
 ```
 
@@ -94,7 +94,7 @@ You can replace these colors in your SASS with:
 
 ```scss
 .arrow {
-	background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
+    background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
 }
 ```
 
@@ -102,7 +102,7 @@ By default, if you do not include a replacement color, the original color (as de
 
 ```scss
 .arrow {
-	background-image: sax(arrow, #000, $red: #d700ee);
+    background-image: sax(arrow, #000, $red: #d700ee);
 }
 ```
 
@@ -112,7 +112,7 @@ Additionally, you can use a [variable arguments][sass-var-args] for consistent t
 $theme: ("red": #d700ee, "blue": #9600bb);
 
 .arrow {
-	background-image: sax(arrow, $theme...);
+    background-image: sax(arrow, $theme...);
 }
 ```
 
@@ -166,7 +166,7 @@ To replace a single color:
 
 ```scss
 .arrow {
-	background-image: sax(arrow, #000);
+    background-image: sax(arrow, #000);
 }
 ```
 
@@ -174,7 +174,7 @@ To replace with multiple-colors:
 
 ```scss
 .arrow {
-	background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
+    background-image: sax(arrow, $red: #d700ee, $blue: #9600bb);
 }
 ```
 
@@ -182,7 +182,7 @@ To replace with some colors and an optional default:
 
 ```scss
 .arrow {
-	background-image: sax(arrow, #000, $red: #d700ee);
+    background-image: sax(arrow, #000, $red: #d700ee);
 }
 ```
 
@@ -195,17 +195,17 @@ Returns the icon's width or height in pixels, as defined by the SVG's `width` an
 
 ```scss
 .arrow {
-	background-size: sax-width(arrow) sax-height(arrow);
-	width: sax-width(arrow);
-	height: sax-height(arrow);
+    background-size: sax-width(arrow) sax-height(arrow);
+    width: sax-width(arrow);
+    height: sax-height(arrow);
 }
 ```
 
 ```css
 .arrow {
-	background-size: 9px 12px;
-	width: 9px;
-	height: 12px;
+    background-size: 9px 12px;
+    width: 9px;
+    height: 12px;
 }
 ```
 
@@ -238,13 +238,13 @@ If provided, colorizes and exports the SVGs in a single color into the directory
 
 ```js
 {
-	svgs: {
-		target: "path/to/output",
-		colors: {
-			red: "#F00",
-			green: "#0F0"
-		}
-	}
+    svgs: {
+        target: "path/to/output",
+        colors: {
+            red: "#F00",
+            green: "#0F0"
+        }
+    }
 }
 ```
 
@@ -271,10 +271,10 @@ By default, SVG output will be named after the original file and the color name.
 
 ```js
 svgs: {
-	colors: {
-		red: "#F00",
-		green: "#0F0"
-	}
+    colors: {
+        red: "#F00",
+        green: "#0F0"
+    }
 }
 ```
 
@@ -289,9 +289,9 @@ You can override the path and filenames with the `outputPath` option:
 
 ```js
 svgs: {
-	outputPath: function(filePath, iconName, colorName, color) {
-		return iconName + '.' + colorName + '.svg';
-	}
+    outputPath: function(filePath, iconName, colorName, color) {
+        return iconName + '.' + colorName + '.svg';
+    }
 }
 ```
 
@@ -313,9 +313,9 @@ You can override how the names are produced by providing your own function to `i
 
 ```js
 {
-	iconName: function(fileName) {
-		return fileName.replace(/^.*_(.*)\.svg$/, '$1');
-	}
+    iconName: function(fileName) {
+        return fileName.replace(/^.*_(.*)\.svg$/, '$1');
+    }
 }
 ```
 
@@ -376,10 +376,10 @@ One solution is to extend a [placeholder selector](http://sass-lang.com/document
 
 ```scss
 %icon-arrow-red {
-	background-image: sax(arrow, red);
-	background-size: sax-width(arrow) sax-height(arrow);
-	width: sax-width(arrow);
-	height: sax-height(arrow);
+    background-image: sax(arrow, red);
+    background-size: sax-width(arrow) sax-height(arrow);
+    width: sax-width(arrow);
+    height: sax-height(arrow);
 }
 
 .a {@extend %icon-arrow-red;}
@@ -389,10 +389,10 @@ One solution is to extend a [placeholder selector](http://sass-lang.com/document
 
 ```css
 .a, .b, .c {
-	background-image: url("data:image/svg+xml, ... ");
-	background-size: 9px 12px;
-	width: 9px;
-	height: 12px;
+    background-image: url("data:image/svg+xml, ... ");
+    background-size: 9px 12px;
+    width: 9px;
+    height: 12px;
 }
 ```
 
