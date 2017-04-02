@@ -32,14 +32,14 @@ module.exports = function(grunt) {
 		saxicon: {
 			test_json: {
 				options: {
-					source: "test/src",
-					json: "tmp/test_json/data.json",
+					source: 'test/src',
+					json: 'tmp/test_json/data.json'
 				}
 			},
 			test_json2: {
 				options: {
-					source: "test/src",
-					json: "tmp/test_json2/data.json",
+					source: 'test/src',
+					json: 'tmp/test_json2/data.json',
 					iconName: function(fileName) {
 						return fileName.replace(/^(.*)\.svg$/, '$1-test');
 					}
@@ -47,92 +47,92 @@ module.exports = function(grunt) {
 			},
 			test_scss_ruby: {
 				options: {
-					source: "test/src",
-					scss: "tmp/test_scss_ruby/_saxicon.scss"
+					source: 'test/src',
+					scss: 'tmp/test_scss_ruby/_saxicon.scss'
 				}
 			},
 			test_scss_libsass: {
 				options: {
-					source: "test/src",
-					scss: "tmp/test_scss_libsass/_saxicon.scss"
+					source: 'test/src',
+					scss: 'tmp/test_scss_libsass/_saxicon.scss'
 				}
 			},
 			test_svgs: {
 				options: {
-					source: "test/src",
+					source: 'test/src',
 					svgs: {
-						target: "tmp/test_svgs/svgs/",
+						target: 'tmp/test_svgs/svgs/',
 						colors: {
-							red: "#F00",
-							blue: "#00F",
-							green: "#0F0"
+							red: '#F00',
+							blue: '#00F',
+							green: '#0F0'
 						}
 					}
 				}
 			},
 			test_svgs2: {
 				options: {
-					source: "test/src",
-					outputPath: function(filePath, iconName, colorName, color) {
+					source: 'test/src',
+					outputPath: function(filePath, iconName, colorName) {
 						return iconName + '__' + colorName.toUpperCase() + '.svg';
 					},
 					svgs: {
-						target: "tmp/test_svgs2/svgs/",
+						target: 'tmp/test_svgs2/svgs/',
 						colors: {
-							red: "#F00",
-							blue: "#00F"
+							red: '#F00',
+							blue: '#00F'
 						}
 					}
 				}
 			},
 			test_svgs3: {
 				options: {
-					source: "test/src",
+					source: 'test/src',
 					iconName: function(fileName) {
 						return fileName.replace(/^icon-(.*)\.svg$/, '$1');
 					},
-					outputPath: function(filePath, iconName, colorName, color) {
+					outputPath: function(filePath, iconName, colorName) {
 						return colorName + '__' + iconName + '.svg';
 					},
 					svgs: {
-						target: "tmp/test_svgs3/svgs/",
+						target: 'tmp/test_svgs3/svgs/',
 						colors: {
-							red: "#F00",
-							blue: "#00F"
+							red: '#F00',
+							blue: '#00F'
 						}
 					}
 				}
 			},
 			test_dimensions: {
 				options: {
-					source: "test/src/dimensions",
-					json: "tmp/test_dimensions/data.json"
+					source: 'test/src/dimensions',
+					json: 'tmp/test_dimensions/data.json'
 				}
 			},
 			test_no_dimensions: {
 				options: {
-					source: "test/src/no_dimensions",
-					json: "tmp/test_no_dimensions/data.json",
-					scss: "tmp/test_no_dimensions/saxicon.scss"
+					source: 'test/src/no_dimensions',
+					json: 'tmp/test_no_dimensions/data.json',
+					scss: 'tmp/test_no_dimensions/saxicon.scss'
 				}
 			},
 			test_auto_color_naming: {
 				options: {
-					source: "test/src/multi",
-					json: "tmp/test_auto_color_naming/test.json"
+					source: 'test/src/multi',
+					json: 'tmp/test_auto_color_naming/test.json'
 				}
 			},
 			test_multi: {
 				options: {
-					source: "test/src/multi",
-					scss: "tmp/test_multi/_saxicon.scss"
+					source: 'test/src/multi',
+					scss: 'tmp/test_multi/_saxicon.scss'
 				}
 			},
 			test_gray: {
 				options: {
 					preferGray: true,
-					source: "test/src/gray",
-					json: "tmp/test_gray/test.json"
+					source: 'test/src/gray',
+					json: 'tmp/test_gray/test.json'
 				}
 			}
 		},
@@ -151,7 +151,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
+	// Whenever the 'test' task is run, first clean the 'tmp' dir, then run this
 	// plugin's task(s), then test the result.
 	grunt.registerTask('test', ['clean', 'nodeunit']);
 
