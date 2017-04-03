@@ -256,7 +256,7 @@ module.exports = function(grunt) {
 					return (a || b) ? '"' + x.replace(/[^\ \-\.\d\w]/g, escape).replace(/"/g, '\'') + '"' : x;
 				}).join(', ');
 
-				map.push(set.icon + ': (' + set.width + ', ' + set.height + ', (' + set.svg + '))');
+				map.push('"' + set.icon + '" : (' + set.width + ', ' + set.height + ', (' + set.svg + '))');
 			});
 
 			map = '$saxicon-map: (' + _.values(map).join(',\n') + ');\n';

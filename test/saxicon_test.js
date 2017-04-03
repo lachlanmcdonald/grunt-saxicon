@@ -402,5 +402,58 @@ exports.saxicon = {
 				test.done();
 			});
 		});
+	},
+
+	// Test that keys can be addressed using strings with and without quotes
+	test_string_keys: function(test) {
+		var outputPath = grunt.config('saxicon.test_string_keys.options.scss');
+
+		exec('grunt saxicon:test_string_keys', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			var dest1 = path.join(path.dirname(outputPath), 'test1.scss'),
+				dest2 = path.join(path.dirname(outputPath), 'test2.scss');
+
+			grunt.file.write(dest1, [
+				'@import "saxicon";',
+				'.a {background-image: sax("icon-03", #C0FFEE);}'
+			].join('\n'));
+
+			grunt.file.write(dest2, [
+				'@import "saxicon";',
+				'.a {background-image: sax(icon-03, #C0FFEE);}'
+			].join('\n'));
+
+			exec('sassc ' + dest1, execOptions, function(error, stdout1) {
+				test.strictEqual(error, null);
+
+				exec('sassc ' + dest2, execOptions, function(error, stdout2) {
+					test.strictEqual(error, null);
+					test.strictEqual(stdout1, stdout2);
+					test.done();
+				});
+			});
+		});
+	},
+
+	// Test that keys can be addressed using numbers when the keys are strings
+	test_numeric_keys: function(test) {
+		var outputPath = grunt.config('saxicon.test_numeric_keys.options.scss');
+
+		exec('grunt saxicon:test_numeric_keys', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			var dest = path.join(path.dirname(outputPath), 'test1.scss');
+
+			grunt.file.write(dest, [
+				'@import "saxicon";',
+				'.a {background-image: sax(1, #C0FFEE);}'
+			].join('\n'));
+
+			exec('sassc ' + dest, execOptions, function(error, stdout1) {
+				test.strictEqual(error, null);
+				test.done();
+			});
+		});
 	}
 };

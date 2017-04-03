@@ -134,6 +134,21 @@ module.exports = function(grunt) {
 					source: 'test/src/gray',
 					json: 'tmp/test_gray/test.json'
 				}
+			},
+			test_string_keys: {
+				options: {
+					source: 'test/src/',
+					scss: 'tmp/test_string_keys/_saxicon.scss'
+				}
+			},
+			test_numeric_keys: {
+				options: {
+					iconName: function(fileName) {
+						return fileName.replace(/^icon-0(\d)\.svg$/, '$1');
+					},
+					source: 'test/src/',
+					scss: 'tmp/test_numeric_keys/_saxicon.scss'
+				}
 			}
 		},
 
