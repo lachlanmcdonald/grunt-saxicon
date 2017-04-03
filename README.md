@@ -123,7 +123,7 @@ Type: `String`
 Path to the directory which contains the SVG files.
 
 - This path is not searched recursively.
-- It is highly recommended that you minify these files first using [svgo] or [grunt-svgmin]. However, you should disabled the `convertColors` option, so that color keywords like `red` are not converted to `#F00`.
+- It is highly recommended that you minify these files first using [svgo] or [grunt-svgmin].
 
 **scss**  
 Type: `String`  
@@ -315,7 +315,7 @@ The function will receive these arguments for every icon-color combination:
 
 <h3 id="colors-in-svgs">Colors in SVGs</h3>
 
-grunt-saxicon only works with the `fill` and `stroke` attributes. If you use `style` attributes, you should first convert these to attributes using [svgo] or [grunt-svgmin]. However, you should disabled the `convertColors` option, so that color keywords like `red` are not converted to `#F00`.
+grunt-saxicon only works with the `fill` and `stroke` attributes. If you use `style` attributes, you should first convert these to attributes using [svgo] or [grunt-svgmin].
 
 Styles applied via the `<style>` tag are ignored.
 
