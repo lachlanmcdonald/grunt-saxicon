@@ -1,6 +1,6 @@
 # Change log
 
-### Version 0.3.0-beta.3
+### Version 0.3.0-beta.4
 
 🌱 **This is a beta release**
 

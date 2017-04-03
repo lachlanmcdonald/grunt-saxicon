@@ -27,7 +27,7 @@
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-saxicon@0.3.0-beta.3 --save-dev
+npm install grunt-saxicon@0.3.0-beta.4 --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -47,7 +47,7 @@ grunt.initConfig({
         taskName: {
             source: "path/to/svgs/",
             scss: "path/to/saxicon.scss"
-        }   
+        }
     }
 });
 ```
