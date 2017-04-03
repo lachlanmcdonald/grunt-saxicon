@@ -1,8 +1,12 @@
 # Change log
 
-### Version 0.3.0
+### Version 0.3.0-beta.2
 
-- Multi-color SVG support
+🌱 **This is a beta release**
+
+- Multi-color SVG support.
+- Removed *grunt-contrib-jshint*. Too many vulnerabilities. [eslint](http://eslint.org/) is prefered instead.
+- Icons names are always treated as strings in SASS.
 
 For compatibility:
 
@@ -11,7 +15,7 @@ For compatibility:
 - `sax-height()` function replaces `saiconx-height()`
 - `sax` function replaces `saxicon-background()`
 
-### Version 0.2.5 — xx/xx/2017
+### Version 0.2.5 — 04/12/2016
 
 - Integration with Travis CI
 - Fixed documentation

@@ -14,7 +14,6 @@
     <li><a href="#sass">SASS</a></li>
     <li><a href="#advanced-options">Advanced options</a></li>
     <li><a href="#notes">Notes</a><ul>
-        <li><a href="#icon-names">Icon names</a></li>
         <li><a href="#colors-in-svgs">Colors in SVGs</a></li>
         <li><a href="#tests">Tests</a></li>
         <li><a href="#browser-support">Browser Support</a></li>
@@ -28,7 +27,7 @@
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-saxicon@0.3.0-beta.1 --save-dev
+npm install grunt-saxicon@0.3.0-beta.2 --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -134,7 +133,17 @@ Destination for SCSS output.
 **iconName**  
 Type: `Function`
 
-Optional callback function used to generate icon names for your SCSS and SVG files.
+Optional callback function used to generate icon names for your SCSS and SVG files. By default, each SVG will be named after the original filename without its extension. i.e. `arrow-left.svg` becomes `arrow-left`.
+
+Function receives the filename and should return the icon's name as a string.
+
+```js
+{
+    iconName: function(fileName) {
+        return fileName.replace(/^(.*)\.svg$/, '$1');
+    }
+}
+```
 
 **defaultColor**  
 Type: `String`
@@ -304,23 +313,6 @@ The function will receive these arguments for every icon-color combination:
 
 <h2 id="notes">Notes</h2>
 
-<h3 id="icon-names">Icon names</h3>
-
-Each SVG will be named after the original  filename (without its extension).  
-i.e. `arrow-left.svg` becomes `arrow-left`.
-
-You can override how the names are produced by providing your own function to `iconName`, as illustrated below:
-
-```js
-{
-    iconName: function(fileName) {
-        return fileName.replace(/^.*_(.*)\.svg$/, '$1');
-    }
-}
-```
-
-The function must return a valid [SASS map key][sass-map]. That is, a string which will work when passed to [`map-get()`][sass-map-get].
-
 <h3 id="colors-in-svgs">Colors in SVGs</h3>
 
 grunt-saxicon only works with the `fill` and `stroke` attributes. If you use `style` attributes, you should first convert these to attributes using [svgo] or [grunt-svgmin]. However, you should disabled the `convertColors` option, so that color keywords like `red` are not converted to `#F00`.
@@ -432,6 +424,4 @@ This code is distributed under the BSD-3-Clause license, as included below:
 [build-img]: https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master
 [sass-color]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#colors
 [sass-string]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#sass-script-strings
-[sass-map]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps
-[sass-map-get]: http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method
 [sass-var-args]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#variable_arguments
