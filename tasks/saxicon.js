@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 		var colorKey = '__saxicon__',
 			tags = ['rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'path'],
 			maxDepth = 50,
-			colorKeyword,
+			getColorKeyword,
 			options,
 			traverse,
 			parser,
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 			}
 		});
 
-		colorKeyword = function(s) {
+		getColorKeyword = function(s) {
 			s = s.trim().replace(/^#/, '');
 
 			if (svgColorLookup.hasOwnProperty(s)) {
@@ -71,14 +71,14 @@ module.exports = function(grunt) {
 								if (typeof node.fill !== 'string') {
 									node.fill = options.defaultColor;
 								} else if (options.autoColorNaming === true) {
-									node.fill = colorKeyword(node.fill);
+									node.fill = getColorKeyword(node.fill);
 								}
 
 								node.fill = (colorKey + node.fill + colorKey);
 							}
 							if (node.hasOwnProperty('stroke') && node.stroke !== 'none') {
 								if (options.autoColorNaming === true) {
-									node.stroke = colorKeyword(node.stroke);
+									node.stroke = getColorKeyword(node.stroke);
 								}
 
 								node.stroke = (colorKey + node.stroke + colorKey);
