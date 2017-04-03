@@ -40,18 +40,18 @@ module.exports = function(grunt) {
 			}
 		});
 
-		getColorKeyword = function(s) {
-			s = s.trim().replace(/^#/, '');
+		getColorKeyword = function(original) {
+			var s = original.trim().replace(/^#/, '').toUpperCase();
 
 			if (svgColorLookup.hasOwnProperty(s)) {
 				return svgColorLookup[s];
-			} else if (/([a-f0-9])\1([a-f0-9])\2([a-f0-9])\3/i.test(s)) {
+			} else if (/^([A-F0-9])\1([A-F0-9])\2([A-F0-9])\3$/i.test(s)) {
 				var t = s[0] + s[2] + s[4];
 				if (svgColorLookup.hasOwnProperty(t)) {
 					return svgColorLookup[t];
 				}
 			}
-			return s;
+			return original;
 		};
 
 		traverse = function(obj, parentKey, depth) {
