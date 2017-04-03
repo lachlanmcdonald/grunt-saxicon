@@ -304,9 +304,9 @@ exports.saxicon = {
 			var dest = path.join(path.dirname(outputPath), 'test.scss');
 			grunt.file.write(dest, [
 				'@import "saxicon";',
-				'.test1 {background-image: sax(icon-03, $lime: #8403ff, $red: #8403ff, $black: #8403ff);}',
-				'.test2 {background-image: sax(icon-03, #8403ff, $black: #8403ff);}',
-				'.test3 {background-image: sax(icon-03, #8403ff);}'
+				'.test1 {background-image: sax(icon-03, $lime: #C0FFEE, $red: #C0FFEE, $black: #C0FFEE);}',
+				'.test2 {background-image: sax(icon-03, #C0FFEE, $black: #C0FFEE);}',
+				'.test3 {background-image: sax(icon-03, #C0FFEE);}'
 			].join('\n'));
 
 			exec('sassc ' + dest, execOptions, function(error) {
@@ -327,9 +327,9 @@ exports.saxicon = {
 
 			grunt.file.write(dest, [
 				'@import "saxicon";',
-				'.test1 {background-image: sax(icon-03, $lime: #8403ff, $red: #8403ff, $black: #8403ff);}',
-				'.test2 {background-image: sax(icon-03, #8403ff, $black: #8403ff);}',
-				'.test3 {background-image: sax(icon-03, #8403ff);}'
+				'.test1 {background-image: sax(icon-03, $lime: #C0FFEE, $red: #C0FFEE, $black: #C0FFEE);}',
+				'.test2 {background-image: sax(icon-03, #C0FFEE, $black: #C0FFEE);}',
+				'.test3 {background-image: sax(icon-03, #C0FFEE);}'
 			].join('\n'));
 
 			exec('sass ' + dest + ' --no-cache', execOptions, function(error) {
@@ -373,7 +373,7 @@ exports.saxicon = {
 			var dest = path.join(path.dirname(outputPath), 'test.scss');
 			grunt.file.write(dest, [
 				'@import "saxicon";',
-				'$theme: ("lime": #8403ff, "red": #8403ff, "black": #8403ff);',
+				'$theme: ("lime": #C0FFEE, "red": #C0FFEE, "black": #C0FFEE);',
 				'.test {background-image: sax(icon-03, theme...);}'
 			].join('\n'));
 
@@ -393,7 +393,7 @@ exports.saxicon = {
 			var dest = path.join(path.dirname(outputPath), 'test.scss');
 			grunt.file.write(dest, [
 				'@import "saxicon";',
-				'$theme: ("lime": #8403ff, "red": #8403ff, "black": #8403ff);',
+				'$theme: ("lime": #C0FFEE, "red": #C0FFEE, "black": #C0FFEE);',
 				'.test {background-image: sax(icon-03, $theme...);}'
 			].join('\n'));
 
