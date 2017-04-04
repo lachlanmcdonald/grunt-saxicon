@@ -161,6 +161,7 @@ module.exports = function(grunt) {
 		options = this.options({
 			defaultColor: 'black',
 			autoColorNaming: true,
+			mergeMaps: false,
 			preferGray: false,
 			iconName: function(fileName) {
 				return fileName.replace(/^(.*)\.svg$/, '$1');
@@ -187,6 +188,9 @@ module.exports = function(grunt) {
 		}
 		if (_.isBoolean(options.preferGray) === false) {
 			grunt.fail.warn('"preferGray" must be a boolean.');
+		}
+		if (_.isBoolean(options.mergeMaps) === false) {
+			grunt.fail.warn('"mergeMaps" must be a boolean.');
 		}
 
 		if (options.preferGray === true) {
@@ -256,11 +260,27 @@ module.exports = function(grunt) {
 					return (a || b) ? '"' + x.replace(/[^\ \-\.\d\w]/g, escape).replace(/"/g, '\'') + '"' : x;
 				}).join(', ');
 
-				map.push('"' + set.icon + '" : (' + set.width + ', ' + set.height + ', (' + set.svg + '))');
+				map.push('"' + set.icon + '": (' + set.width + ', ' + set.height + ', (' + set.svg + '))');
 			});
 
-			map = '$saxicon-map: (' + _.values(map).join(',\n') + ');\n';
-			grunt.file.write(options.scss, map + '\n' + scssUtils);
+			var values = _.values(map).join(',\n');
+
+			if (options.mergeMaps === true) {
+				var mapVariable = '$saxicon-map-' + (+new Date());
+
+				map = [
+					mapVariable + ': (' + values + ');\n',
+					'@if (variable_exists(saxicon-map)) {',
+					'	$saxicon-map: map_merge($saxicon-map, ' + mapVariable + ') !global;',
+					'} @else {',
+					'	$saxicon-map: ' + mapVariable + ' !global;',
+					'}'
+				].join('\n');
+			} else {
+				map = '$saxicon-map: (' + values + ');';
+			}
+
+			grunt.file.write(options.scss, map + '\n\n' + scssUtils);
 		}
 	});
 };
