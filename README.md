@@ -330,6 +330,13 @@ By default, colors are converted to their [SVG color keyword][colors] (configura
 - `magenta` is used instead of `fushsia`
 - Gr<u>e</u>y not gr<u>a</u>y. If you are feeling especially pedantic, you may use the `preferGray` option.
 
+<h3 id="rationale">Rationale</h3>
+
+By insisting that shape colors are replaced based on the `fill` and `stroke` attributes, instead of an ID or class, was based on two goals:
+
+1. To ensure that embedded SVGs are as small as possible
+2. Make it possible to preview an SVG and know which colors to replace without having to read it's source.
+
 <h3 id="tests">Tests</h3>
 
 To run the tests, you will need both:
