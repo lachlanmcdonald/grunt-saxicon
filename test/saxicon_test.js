@@ -450,9 +450,34 @@ exports.saxicon = {
 				'.a {background-image: sax(1, #C0FFEE);}'
 			].join('\n'));
 
-			exec('sassc ' + dest, execOptions, function(error, stdout1) {
+			exec('sassc ' + dest, execOptions, function(error) {
 				test.strictEqual(error, null);
 				test.done();
+			});
+		});
+	},
+
+	// Test that maps will merge
+	test_map_merge: function(test) {
+		var outputPath = grunt.config('saxicon.test_map_merge1.options.scss');
+
+		exec('grunt saxicon:test_map_merge1', execOptions, function(error) {
+			test.strictEqual(error, null);
+
+			exec('grunt saxicon:test_map_merge2', execOptions, function(error) {
+				test.strictEqual(error, null);
+
+				var dest = path.join(path.dirname(outputPath), 'test.scss');
+
+				grunt.file.write(dest, [
+					'@import "saxicon1";',
+					'@import "saxicon2";'
+				].join('\n'));
+
+				exec('sassc ' + dest, execOptions, function(error) {
+					test.strictEqual(error, null);
+					test.done();
+				});
 			});
 		});
 	}

@@ -137,6 +137,20 @@ module.exports = function(grunt) {
 					source: 'test/src/',
 					scss: 'tmp/test_numeric_keys/_saxicon.scss'
 				}
+			},
+			test_map_merge1: {
+				options: {
+					mergeMaps: true,
+					source: 'test/src',
+					scss: 'tmp/test_map_merge/_saxicon1.scss'
+				}
+			},
+			test_map_merge2: {
+				options: {
+					mergeMaps: true,
+					source: 'test/src',
+					scss: 'tmp/test_map_merge/_saxicon2.scss'
+				}
 			}
 		},
 
