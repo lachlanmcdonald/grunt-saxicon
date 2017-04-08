@@ -145,6 +145,11 @@ Function receives the filename and should return the icon's name as a string.
 }
 ```
 
+**mergeMaps**  
+Type: `String`
+
+By default, grunt-saxicon will overwrite the map which stores the icon information when the generated file is imported by Sass. If `true`, grunt-saxicon will instead merge the icon information, allowing you to import multiple generated files whilst retaining all of the icons.
+
 **defaultColor**  
 Type: `String`
 
