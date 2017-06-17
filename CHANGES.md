@@ -1,8 +1,6 @@
 # Change log
 
-### Version 0.3.0-beta.4
-
-🌱 **This is a beta release**
+### Version 0.3.0 — 17/06/2017
 
 - Multi-color SVG support.
 - Removed *grunt-contrib-jshint*. Too many vulnerabilities. [eslint](http://eslint.org/) is prefered instead.

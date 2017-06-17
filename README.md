@@ -5,8 +5,6 @@
 
 > grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs (with both single or multi-colored shapes) within SASS, embedded as a data-URI.
 
-🌱 **This is a beta release**. For the last stable version, see [v0.2.5](https://github.com/lachlanmcdonald/grunt-saxicon/tree/v0.2.5).
-
 <ul>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
@@ -36,7 +34,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-saxicon');
 ```
 
-<h2 id="getting-started">Getting Started</h2>
+<h2 id="getting-started">Getting started</h2>
 
 Add the following to your `Gruntfile.js`:
 
@@ -97,7 +95,7 @@ You can replace these colors in your SASS with:
 }
 ```
 
-By default, if you do not include a replacement color, the original color (as defined in the SVG) will be used instead. Whilst this is useful for debugging, you can also set a default color as the second argument for when a keyword is omitted:
+If you do not include a replacement color, the original color (as defined in the SVG) will be used instead. Whilst this is useful for debugging, you can also set a default replacement color as the second argument for when a keyword is omitted:
 
 ```scss
 .arrow {
@@ -115,7 +113,7 @@ $theme: ("red": #d700ee, "blue": #9600bb);
 }
 ```
 
-<h2 id="options">Options</h2>
+<h2 id="options">Task options</h2>
 
 **source**  
 Type: `String`
@@ -241,7 +239,7 @@ Outputs a class for every icon in the specified color. This mixin also outputs a
 .icon-red-right-arrow {...}
 ```
 
-<h2 id="advanced-options">Advanced options</h2>
+<h2 id="advanced-options">Advanced task options</h2>
 
 > These options are secondary to colorizing and embedded SVGs in your CSS, but are included as they might come in handy.
 
@@ -335,14 +333,14 @@ By default, colors are converted to their [SVG color keyword][colors] (configura
 By insisting that shape colors are replaced based on the `fill` and `stroke` attributes, instead of an ID or class, was based on two goals:
 
 1. To ensure that embedded SVGs are as small as possible
-2. Make it possible to preview an SVG and know which colors to replace without having to read it's source.
+2. Make it possible to preview a SVG and know which colors to replace without having to view it's source-code.
 
 <h3 id="tests">Tests</h3>
 
 To run the tests, you will need both:
 
 1. [Ruby SASS](http://sass-lang.com/unstall) — available in your test environment as `sass`
-2. A wrapper around [libsass](http://github.com/sass/libsass) (like [SassC](https://github.com/sass/sassc), which can be installed on macOS with [Homebrew](http://brewformulas.org/Sassc)) — available in your test environment as `sassc`
+2. A wrapper around [libsass](http://github.com/sass/libsass) (like [SassC](https://github.com/sass/sassc)) — available in your test environment as `sassc`
 
 To run the tests:
 
