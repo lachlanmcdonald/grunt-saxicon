@@ -1,5 +1,9 @@
 # Change log
 
+### Version 0.4.0-beta.1 — 19/04/2018
+
+- Replaced task with new [saxicon](https://github.com/lachlanmcdonald/saxicon/) module.
+
 ### Version 0.3.0 — 17/06/2017
 
 - Multi-color SVG support.
