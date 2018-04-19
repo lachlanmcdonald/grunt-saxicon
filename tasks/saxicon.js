@@ -4,7 +4,7 @@
 
 /*
  * grunt-saxicon 0.4.0-beta.1
- * Copyright (c) 2017 Lachlan McDonald
+ * Copyright (c) 2018 Lachlan McDonald
  * https://github.com/lachlanmcdonald/grunt-saxicon/
  *
  * Licensed under the BSD 3-Clause license.
