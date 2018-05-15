@@ -2,7 +2,13 @@
 
 ### Version 0.4.0-beta.1 — 19/04/2018
 
-- Replaced task with new [saxicon](https://github.com/lachlanmcdonald/saxicon/) module.
+- Replaced task with new [saxicon][saxicon] module.
+  - Improved DOM traversal accuracy
+  - Proper inheritance of styles on `<g>`
+- The depth of tests have been replaced with a smoketest. Tests can be more accurately tested on the [saxicon][saxicon] module.
+- The following features have been removed from `grunt-saxicon`:
+  - Export SVGs as JSON
+  - Export colorised SVGs directly from the task
 
 ### Version 0.3.0 — 17/06/2017
 
@@ -42,3 +48,5 @@ Versions 0.2.0—0.2.3 are identical. Only documentation has changed.
 ### Version 0.1.0 — 16/05/2017
 
 - First release.
+
+[saxicon]: https://github.com/lachlanmcdonald/saxicon
