@@ -8,7 +8,6 @@
 'use strict';
 
 const { Saxicon } = require('saxicon');
-const path = require('path');
 
 module.exports = function(grunt) {
 	grunt.registerMultiTask('saxicon', function() {
