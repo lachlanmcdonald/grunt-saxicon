@@ -1,7 +1,7 @@
 {
   "name": "grunt-saxicon",
   "description": "Grunt task runner for saxicon",
-  "version": "0.4.0-beta.1",
+  "version": "0.4.0-beta.2",
   "homepage": "https://github.com/lachlanmcdonald/grunt-saxicon/",
   "author": "Lachlan McDonald <lachlan@radelaide.net>",
   "contributors": [
