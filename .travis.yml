@@ -1,11 +1,18 @@
 os:
   - osx
-osx_image: xcode8.1
 language: node_js
 node_js:
-  - "0.10"
+  - "10"
+  - "9"
+  - "8"
+  - "7"
+  - "6"
+  - "node"
+  - "lts/*"
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sassc ; fi
-  - gem install sass
-  - npm install grunt-cli -g
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install --devel sass/sass/sass ; fi
+cache:
+  directories:
+    - node_modules

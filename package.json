@@ -1,7 +1,7 @@
 {
   "name": "grunt-saxicon",
-  "description": "grunt-saxicon takes a folder of SVGs and produces a SASS snippet that allows you to generate colorized SVGs within SASS embedded as a data-URI.",
-  "version": "0.3.0",
+  "description": "Grunt task runner for saxicon",
+  "version": "0.4.0-beta.1",
   "homepage": "https://github.com/lachlanmcdonald/grunt-saxicon/",
   "author": "Lachlan McDonald <lachlan@radelaide.net>",
   "contributors": [
@@ -10,7 +10,7 @@
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/lachlanmcdonald/grunt-saxicon/issues",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">=4"
   },
   "scripts": {
     "test": "grunt test"
@@ -20,11 +20,10 @@
     "url": "https://github.com/lachlanmcdonald/grunt-saxicon.git"
   },
   "dependencies": {
-    "grunt": "~1.0.1",
-    "grunt-contrib-clean": "^1.0.0",
+    "grunt": "^1.0.2",
+    "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-nodeunit": "^1.0.0",
-    "lodash": "^4.17.2",
-    "xml2js": "^0.4.17"
+    "saxicon": "^1.0.0-beta.6"
   },
   "keywords": [
     "gruntplugin",
