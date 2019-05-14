@@ -1,7 +1,8 @@
 # 🎷 grunt-saxicon
 
-[![npm version][npm-img]](https://badge.fury.io/js/grunt-saxicon)
-![Build status][build-img]
+[![npm version](https://badge.fury.io/js/grunt-saxicon.svg)](https://badge.fury.io/js/grunt-saxicon)
+[![License](https://img.shields.io/npm/l/grunt-saxicon.svg)](https://github.com/lachlanmcdonald/grunt-saxicon/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master)](https://travis-ci.org/lachlanmcdonald/grunt-saxicon)
 
 > **grunt-saxicon** is a wrapper for [saxicon][saxicon], a module which transforms SVGs into a SASS snippet that allows you to generate colorized SVGs (with both single or multi-colored shapes) within SASS, with each SVG embedded as a data-URI.
 
@@ -57,5 +58,3 @@ grunt test
 
 [saxicon]: https://github.com/lachlanmcdonald/saxicon
 [saxicon-options]: https://github.com/lachlanmcdonald/saxicon/wiki/Saxicon-class#options
-[npm-img]: https://badge.fury.io/js/grunt-saxicon.svg
-[build-img]: https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master
