@@ -10,11 +10,16 @@
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/lachlanmcdonald/grunt-saxicon/issues",
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "scripts": {
     "test": "grunt test"
   },
+  "files": [
+    "tasks/*",
+    "Gruntfile.js",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/lachlanmcdonald/grunt-saxicon.git"
