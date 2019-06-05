@@ -1,5 +1,5 @@
 /*
- * grunt-saxicon 0.4.0-beta.1
+ * grunt-saxicon
  * Copyright (c) 2018 Lachlan McDonald
  * https://github.com/lachlanmcdonald/grunt-saxicon/
  *
