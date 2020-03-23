@@ -10,7 +10,7 @@
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/lachlanmcdonald/grunt-saxicon/issues",
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "scripts": {
     "test": "grunt test"
@@ -25,7 +25,7 @@
     "url": "https://github.com/lachlanmcdonald/grunt-saxicon.git"
   },
   "dependencies": {
-    "saxicon": "^1.4.0"
+    "saxicon": "^1.5.0"
   },
   "devDependencies": {
     "grunt": "^1.1.0",
