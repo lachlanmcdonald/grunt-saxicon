@@ -4,6 +4,8 @@
 [![License](https://img.shields.io/npm/l/grunt-saxicon.svg)](https://github.com/lachlanmcdonald/grunt-saxicon/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master)](https://travis-ci.org/lachlanmcdonald/grunt-saxicon)
 
+<p style="color: red;"><b>Deprecation warning</b>: This module is no longer maintained and will not receive any further security updates or fixes.</p>
+
 > **grunt-saxicon** is a wrapper for [saxicon][saxicon], a module which transforms SVGs into a SASS snippet that allows you to generate colorized SVGs (with both single or multi-colored shapes) within SASS, with each SVG embedded as a data-URI.
 
 ## Installation
