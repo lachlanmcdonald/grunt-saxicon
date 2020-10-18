@@ -2,7 +2,6 @@
 
 [![npm version](https://badge.fury.io/js/grunt-saxicon.svg)](https://badge.fury.io/js/grunt-saxicon)
 [![License](https://img.shields.io/npm/l/grunt-saxicon.svg)](https://github.com/lachlanmcdonald/grunt-saxicon/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/lachlanmcdonald/grunt-saxicon.svg?branch=master)](https://travis-ci.org/lachlanmcdonald/grunt-saxicon)
 
 <p style="color: red;"><b>Deprecation warning</b>: This module is no longer maintained and will not receive any further security updates or fixes.</p>
 
